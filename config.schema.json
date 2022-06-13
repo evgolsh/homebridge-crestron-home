@@ -1,5 +1,5 @@
 {
-  "pluginAlias": "ExampleHomebridgePlugin",
+  "pluginAlias": "CrestronHomePlatform",
   "pluginType": "platform",
   "singular": true,
   "schema": {
@@ -9,7 +9,18 @@
         "title": "Name",
         "type": "string",
         "required": true,
-        "default": "Example Dynamic Platform"
+        "default": "Crestron Home Platform"
+      },
+      "crestronHost": {
+        "title": "Crestron Processor IP Address",
+        "type": "string",
+        "required": true,
+        "format": "hostname"
+      },
+      "token": {
+        "title": "API Auth Token",
+        "type": "string",
+        "required": true
       }
     }
   }
