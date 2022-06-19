@@ -3,161 +3,8 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { CrestronHomePlatformAccessory } from './platformAccessory';
 
-import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
-import https from 'https';
+import { CrestronClient } from './crestronClient';
 
-type LightState = {
-  id: number;
-  level: number;
-  time: number;
-};
-
-type ShadeState = {
-  id: number;
-  position: number;
-};
-
-class CrestronClient {
-  private axiosClient!: AxiosInstance;
-  private apiToken: string;
-  private crestronUri: string;
-  private authKey = '';
-  private httpsAgent = new https.Agent({
-    rejectUnauthorized: false,
-  });
-
-  constructor(
-    crestronHost: string,
-    apiToken: string,
-    public readonly log: Logger) {
-
-    this.apiToken = apiToken;
-
-    this.log.debug('Configured Crestron Processor, trying to login to;', crestronHost);
-    this.crestronUri = `https://${crestronHost}/cws/api`;
-  }
-
-  public async getDevices() {
-    this.log.debug('Start discovering devices...');
-
-    try {
-      const response = await this.axiosClient.get('/devices');
-
-      //this.log.debug('Get Devices response: ', response);
-      return response.data.devices;
-    } catch (error) {
-      this.log.error('error getting devices: ', error);
-    }
-
-  }
-
-  public async getDevice(id: number) {
-
-    try {
-      const response = await this.axiosClient.get(`/devices/${id}`);
-
-      //this.log.debug('Get Device state:', response.data.devices);
-      return response.data.devices[0];
-
-    } catch (error) {
-      this.log.error('error getting lights state: ', error);
-    }
-  }
-
-  public async getShadeState(id: number){
-
-    try {
-      const response = await this.axiosClient.get(`/Shades/${id}`);
-
-      //this.log.debug('Get Device state:', response.data.devices);
-      return response.data.shades[0];
-
-    } catch (error) {
-      this.log.error('error getting lights state: ', error);
-    }
-  }
-
-  public async setShadesState(shades: ShadeState[]) {
-
-    const shadesState = { shades: shades };
-    //this.log.debug('Setting lights state:', lightsState);
-
-    try {
-      const response = await this.axiosClient.post(
-        '/Shades/SetState',
-        shadesState,
-      );
-
-      this.log.debug('Shades state changed successfully: ', response.data);
-    } catch (error) {
-      this.log.error('Error setting Shades state');
-    }
-  }
-
-  public async setLightsState(lights: LightState[]) {
-
-    const lightsState = { lights: lights };
-    //this.log.debug('Setting lights state:', lightsState);
-
-    try {
-      const response = await this.axiosClient.post(
-        '/Lights/SetState',
-        lightsState,
-      );
-
-      this.log.debug('Lights state changed successfully: ', response.data);
-    } catch (error) {
-      if (axios.isAxiosError(error)) {
-        this.log.error('error changing lights state: ', error.message);
-        return error.message;
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        return 'An unexpected error occurred while tried to login to Crestron';
-      }
-    }
-  }
-
-  public async login() {
-
-    this.log.debug('Starting login...');
-    try {
-      const response = await axios.get(
-        '/login',
-        {
-          httpsAgent: this.httpsAgent,
-          baseURL: this.crestronUri,
-          headers: {
-            Accept: 'application/json',
-            'Crestron-RestAPI-AuthToken': this.apiToken,
-          },
-        },
-      );
-
-      this.log.debug('Succsessfully authinticated, working with version: ', response.data.version);
-
-      const config: AxiosRequestConfig = {
-        httpsAgent: this.httpsAgent,
-        baseURL: this.crestronUri,
-        headers: {
-          'Crestron-RestAPI-AuthKey': response.data.authkey,
-        },
-      };
-
-      this.axiosClient = axios.create(
-        config,
-      );
-    } catch (error) {
-
-      if (axios.isAxiosError(error)) {
-        this.log.error('Login error: ', error.message);
-        return error.message;
-      } else {
-        this.log.error('Login unexpected error: ', error);
-        return 'An unexpected error occurred while tried to login to Crestron';
-      }
-    }
-  }
-}
 
 /**
  * HomebridgePlatform
@@ -213,17 +60,13 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
    */
   async discoverDevices() {
 
-    // EXAMPLE ONLY
-    // A real plugin you would discover accessories from the local network, cloud services
-    // or a user-defined array in the platform config.
-
     await this.crestronClient.login();
 
-    const exampleDevices = await this.crestronClient.getDevices();
-    this.log.debug(JSON.stringify(exampleDevices));
+    const crestronDevices = await this.crestronClient.getDevices();
+    //this.log.debug(crestronDevices);
 
     // loop over the discovered devices and register each one if it has not already been registered
-    for (const device of exampleDevices) {
+    for (const device of crestronDevices) {
 
       // generate a unique id for the accessory this should be generated from
       // something globally unique, but constant, for example, the device serial
