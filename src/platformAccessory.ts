@@ -88,12 +88,8 @@ export class CrestronHomePlatformAccessory {
               .onSet(this.recallScene.bind(this));
             break;
           case 'Shade':
-            this.service = this.accessory.getService(this.platform.Service.Outlet)
-            || this.accessory.addService(this.platform.Service.Outlet);
-
-            // set the service name, this is what is displayed as the default name on the Home app
-            // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
-            this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
+            this.service = this.accessory.getService(this.platform.Service.Switch)
+            || this.accessory.addService(this.platform.Service.Switch);
 
             this.service.getCharacteristic(this.platform.Characteristic.On)
               .onGet(this.getSceneState.bind(this))
@@ -104,9 +100,18 @@ export class CrestronHomePlatformAccessory {
         }
         break;
       default:
-        this.platform.log.debug('Unsupported accessory type:', accessory.context.device.subType);
+        this.platform.log.debug('Unsupported accessory type:', accessory.context.device.type);
         break;
     }
+  }
+
+  getProgrammableSwitchEvent(){
+    this.platform.log.debug('Triggered GET ProgrammableSwitchEvent');
+
+    // set this to a valid value for ProgrammableSwitchEvent
+    const currentValue = this.platform.Characteristic.ProgrammableSwitchEvent.SINGLE_PRESS;
+
+    return currentValue;
   }
 
   private createLightBulbService(accessory: PlatformAccessory){
@@ -195,10 +200,10 @@ export class CrestronHomePlatformAccessory {
   async setShadeTargetPosition(value: CharacteristicValue){
 
     this.platform.log.debug('Set Shade target position called for: ', this.accessory.displayName, value);
-    this.shadeStates.TargetPosition = value as number;
+    this.shadeStates.TargetPosition = this.percentageToCrestronRangeValue(value as number);
 
     this.platform.crestronClient.setShadesState(
-      [{id: this.crestronId, position: this.percentageToCrestronRangeValue(this.shadeStates.TargetPosition)}]);
+      [{id: this.crestronId, position: this.shadeStates.TargetPosition}]);
   }
 
   async getSceneState(): Promise<CharacteristicValue>{
