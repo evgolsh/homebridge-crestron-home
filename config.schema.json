@@ -21,6 +21,21 @@
         "title": "API Auth Token",
         "type": "string",
         "required": true
+      },
+      "enabledTypes": {
+        "title": "Enabled devices",
+        "type": "array",
+        "uniqueItems": true,
+        "items": {
+          "title": "Type",
+          "type": "string",
+          "enum": [
+            "Switch",
+            "Dimmer",
+            "Shade",
+            "Lighting"
+          ]
+        }
       }
     }
   }

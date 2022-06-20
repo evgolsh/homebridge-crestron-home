@@ -35,13 +35,6 @@ interface Device{
   roomName: string;
 }
 
-enum SupportedDevices{
-    Switch,
-    Dimmer,
-    Shade,
-    Lighting,
-}
-
 export class CrestronClient {
   private axiosClient!: AxiosInstance;
   private apiToken: string;
@@ -52,14 +45,18 @@ export class CrestronClient {
 
   private rooms: Room[] = [];
   private scenes: Scene[] = [];
+  private enabledTypes: string[] = [];
 
   constructor(
     crestronHost: string,
     apiToken: string,
+    enabledTypes: Array<string>,
     public readonly log: Logger) {
 
     this.apiToken = apiToken;
+    this.enabledTypes = enabledTypes;
 
+    log.debug('Enabled types:', this.enabledTypes);
     this.log.debug('Configured Crestron Processor, trying to login to;', crestronHost);
     this.crestronUri = `https://${crestronHost}/cws/api`;
   }
@@ -93,8 +90,8 @@ export class CrestronClient {
           roomName: roomName || '',
         };
 
-        deviceType in SupportedDevices ?
-          devices.push(d) : this.log.info('Device support is not enabled for:', device.subType || device.type);
+        this.enabledTypes.includes(deviceType) ?
+          devices.push(d) : this.log.info('Device support is not enabled for:', deviceType);
       }
 
       for( const scene of crestronData[1].data.scenes){
@@ -109,7 +106,7 @@ export class CrestronClient {
           roomName: roomName || '',
         };
 
-        scene.type in SupportedDevices ?
+        this.enabledTypes.includes(scene.type) ?
           devices.push(d) : this.log.info('Scene support is not enabled for:', scene.type);
       }
 

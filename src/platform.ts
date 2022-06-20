@@ -26,7 +26,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
     public readonly api: API,
   ) {
 
-    this.crestronClient = new CrestronClient(config.crestronHost, config.token, log);
+    log.debug('Configured devices:', config.enabledTypes);
+    this.crestronClient = new CrestronClient(config.crestronHost, config.token, config.enabledTypes, log);
     this.log.debug('Finished initializing platform:', this.config.name);
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.

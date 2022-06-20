@@ -38,15 +38,8 @@ export class CrestronHomePlatformAccessory {
       .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
 
 
-    switch (accessory.context.device.subType) {
-      case 'Lighting':  // Expose a Lighting schene as a LightBulb
-        this.createLightBulbService(accessory);
-        this.sceneStatus = this.accessory.context.device.status;
+    switch (accessory.context.device.type) {
 
-        this.service.getCharacteristic(this.platform.Characteristic.On)
-          .onGet(this.getSceneState.bind(this))
-          .onSet(this.recallScene.bind(this));
-        break;
       case 'Dimmer':  // Dimmer needs brightness, while Switch has On/Off only
       case 'Switch':
         this.createLightBulbService(accessory);
@@ -57,8 +50,8 @@ export class CrestronHomePlatformAccessory {
 
         // register handlers for the On/Off Characteristic
         this.service.getCharacteristic(this.platform.Characteristic.On)
-          .onSet(this.setLightsState.bind(this))                // SET - bind to the `setOn` method below
-          .onGet(this.getLightsState.bind(this));               // GET - bind to the `getOn` method below
+          .onSet(this.setLightsState.bind(this))                // SET - bind to the `setLightsState` method below
+          .onGet(this.getLightsState.bind(this));               // GET - bind to the `getLightsState` method below
 
         if (accessory.context.device.subType === 'Dimmer') {
           // register handlers for the Brightness Characteristic
@@ -66,7 +59,7 @@ export class CrestronHomePlatformAccessory {
             .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
         }
         break;
-      case 'Shade': // Both shade and shade scenes
+      case 'shade':
         this.service = this.accessory.getService(this.platform.Service.WindowCovering)
           || this.accessory.addService(this.platform.Service.WindowCovering);
 
@@ -83,8 +76,35 @@ export class CrestronHomePlatformAccessory {
           .onGet(this.getShadePositionState.bind(this));
 
         break;
+      case 'Scene':
+
+        switch(accessory.context.device.subType) {
+          case 'Lighting':  // Expose a Lighting schene as a LightBulb
+            this.createLightBulbService(accessory);
+            this.sceneStatus = this.accessory.context.device.status;
+
+            this.service.getCharacteristic(this.platform.Characteristic.On)
+              .onGet(this.getSceneState.bind(this))
+              .onSet(this.recallScene.bind(this));
+            break;
+          case 'Shade':
+            this.service = this.accessory.getService(this.platform.Service.Outlet)
+            || this.accessory.addService(this.platform.Service.Outlet);
+
+            // set the service name, this is what is displayed as the default name on the Home app
+            // in this example we are using the name we stored in the `accessory.context` in the `discoverDevices` method.
+            this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
+
+            this.service.getCharacteristic(this.platform.Characteristic.On)
+              .onGet(this.getSceneState.bind(this))
+              .onSet(this.recallScene.bind(this));
+            break;
+          default:
+            break;
+        }
+        break;
       default:
-        this.platform.log.debug('Unsupported device type:', accessory.context.device.subType);
+        this.platform.log.debug('Unsupported accessory type:', accessory.context.device.subType);
         break;
     }
   }
