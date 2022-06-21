@@ -1,13 +1,13 @@
 
 # Homebridge Crestron Home Plugin
 
-This plugin works with REST API served by Crestron Home CWS server and doesn't require anything to be deployed into Crestron controllere. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that exposes Web REST APIs.
+This plugin connects to Crestron Home CWS server using REST API and doesn't require anything to be deployed into Crestron controller. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that runs CWS server.
 
 ## Supported accessories
 The following devices are currently supported:
 * Lights and Dimmers
 * Shades
-* Lighting and Shades scenes (exposed as Switch in the HomeKit)
+* Lighting and Shade scenes (exposed as Switch in the HomeKit)
 
 ## Configuration
 Two values are required for connecting Homebridge to Crestron controller:
