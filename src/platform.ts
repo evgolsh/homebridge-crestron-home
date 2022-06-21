@@ -63,7 +63,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
     await this.crestronClient.login();
 
-    const crestronDevices = await this.crestronClient.getDevices();
+    const crestronDevices = await this.crestronClient.getDevices() || [];
     //this.log.debug(crestronDevices);
 
     // loop over the discovered devices and register each one if it has not already been registered

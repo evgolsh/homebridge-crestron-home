@@ -27,6 +27,7 @@
     "homebridge-plugin"
   ],
   "dependencies": {
+    "async-mutex": "^0.3.2",
     "axios": "^0.27.2"
   },
   "devDependencies": {

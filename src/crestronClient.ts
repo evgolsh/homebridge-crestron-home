@@ -1,6 +1,7 @@
 import { Logger } from 'homebridge';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import https from 'https';
+import {Mutex} from 'async-mutex';
 
 type LightState = {
   id: number;
@@ -39,6 +40,10 @@ export class CrestronClient {
   private axiosClient!: AxiosInstance;
   private apiToken: string;
   private crestronUri: string;
+  private lastLogin: number = new Date().getTime() - 11 * 60 * 1000; // 11 minutes, Crestron session TTL is 10 minutes
+  private NINE_MINUTES_MILLIS = 9 * 60 * 1000;
+  private loginMutex = new Mutex();
+
   private httpsAgent = new https.Agent({
     rejectUnauthorized: false,
   });
@@ -63,6 +68,7 @@ export class CrestronClient {
 
   public async getDevices() {
     this.log.debug('Start discovering devices...');
+    await this.login();
 
     const devices: Device[] = [];
 
@@ -117,22 +123,12 @@ export class CrestronClient {
       return d;
     } catch (error) {
       this.log.error('error getting devices: ', error);
-      if (axios.isAxiosError(error)) {
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.getDevices();
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
     }
-
   }
 
   public async getDevice(id: number) {
+
+    await this.login();
 
     try {
       const response = await this.axiosClient.get(`/devices/${id}`);
@@ -142,21 +138,12 @@ export class CrestronClient {
 
     } catch (error) {
       this.log.error('error getting lights state: ', error);
-      if (axios.isAxiosError(error)) {
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.getDevice(id);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
     }
   }
 
   public async getShadeState(id: number){
+
+    await this.login();
 
     try {
       const response = await this.axiosClient.get(`/Shades/${id}`);
@@ -166,17 +153,6 @@ export class CrestronClient {
 
     } catch (error) {
       this.log.error('error getting shades state: ', error);
-      if (axios.isAxiosError(error)) {
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return await this.getShadeState(id);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
     }
   }
 
@@ -185,26 +161,15 @@ export class CrestronClient {
     const shadesState = { shades: shades };
     this.log.debug('Setting shades state:', shades);
 
+    await this.login();
     try {
       const response = await this.axiosClient.post(
         '/Shades/SetState',
         shadesState,
       );
-
       this.log.debug('Shades state changed successfully: ', response.data);
     } catch (error) {
       this.log.error('Error setting Shades state:', error);
-      if (axios.isAxiosError(error)) {
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.setShadesState(shades);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
     }
   }
 
@@ -212,6 +177,8 @@ export class CrestronClient {
 
     const lightsState = { lights: lights };
     //this.log.debug('Setting lights state:', lightsState);
+
+    await this.login();
 
     try {
       const response = await this.axiosClient.post(
@@ -221,69 +188,46 @@ export class CrestronClient {
 
       this.log.debug('Lights state changed successfully: ', response.data);
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        this.log.error('error changing lights state: ', error.status);
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.setLightsState(lights);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
+      this.log.error('error changing lights state: ', error);
     }
   }
 
   public async getScene(sceneId: number): Promise<Scene>{
+
+    await this.login();
     try {
       const response = await this.axiosClient.get(`/scenes/${sceneId}`);
       return response.data.scenes[0];
     } catch (error){
-      if (axios.isAxiosError(error)) {
-        this.log.error('error getting scene state: ', error.status);
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.getScene(sceneId);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error getting scene state: ', error);
-        throw(error);
-      }
+      this.log.error('Unexpected error getting scene state: ', error);
+      throw(error);
     }
   }
 
   public async recallScene(sceneId: number){
 
+    await this.login();
     try {
       const response = await this.axiosClient.post(
         `/SCENES/RECALL/${sceneId}`,
         '',
       );
-
       this.log.debug('Succsessfuly recalled scene:', response.data);
+
       return response.data;
     } catch (error) {
-      if (axios.isAxiosError(error)) {
-        this.log.error('error recalling scene: ', error.status);
-        if(error.response && error.response.status === 401){
-          this.log.error('### Error is 401, trying to relogin... ###');
-          await this.login();
-          return this.recallScene(sceneId);
-        }
-        throw(error.message);
-      } else {
-        this.log.error('Unexpected error changing lights state: ', error);
-        throw(error);
-      }
+      this.log.error('Unexpected error changing lights state: ', error);
     }
   }
 
   public async login() {
 
+    if(new Date().getTime() - this.lastLogin < this.NINE_MINUTES_MILLIS ) {
+      // this.log.debug('LOGIN: Session is still valid, doing nothing...');
+      return;
+    }
+
+    const release = await this.loginMutex.acquire(); // Mutex all login threads
     this.log.debug('Starting login...');
     try {
       const response = await axios.get(
@@ -311,15 +255,19 @@ export class CrestronClient {
       this.axiosClient = axios.create(
         config,
       );
+
+      this.lastLogin = new Date().getTime();
     } catch (error) {
 
       if (axios.isAxiosError(error)) {
         this.log.error('Login error: ', error.message);
-        return error.message;
+        return;
       } else {
         this.log.error('Login unexpected error: ', error);
-        return 'An unexpected error occurred while tried to login to Crestron';
+        return;
       }
+    } finally{
+      release();
     }
   }
 }
