@@ -2,6 +2,10 @@ import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, 
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
 import { CrestronHomePlatformAccessory } from './platformAccessory';
+import { CrestronHomeShade } from './CrestronHomeShade';
+import { CrestronHomeLight } from './CrestronHomeLight';
+import { CrestronHomeScene } from './CrestronHomeScene';
+
 
 import { CrestronClient } from './crestronClient';
 
@@ -88,7 +92,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
-        new CrestronHomePlatformAccessory(this, existingAccessory);
+        // new CrestronHomePlatformAccessory(this, existingAccessory);
+        this.createCrestronAccessory(existingAccessory);
 
         // it is possible to remove platform accessories at any time using `api.unregisterPlatformAccessories`, eg.:
         // remove platform accessories when no longer present
@@ -107,11 +112,31 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
-        new CrestronHomePlatformAccessory(this, accessory);
+        // new CrestronHomePlatformAccessory(this, accessory);
+        this.createCrestronAccessory(accessory);
 
         // link the accessory to your platform
         this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
       }
+    }
+  }
+
+  createCrestronAccessory(accessory) {
+
+    switch (accessory.context.device.type) {
+      case 'Dimmer':  // Dimmer needs brightness, while Switch has On/Off only
+      case 'Switch':
+        new CrestronHomeLight(this, accessory);
+        break;
+      case 'Shade':
+        new CrestronHomeShade(this, accessory);
+        break;
+      case 'Scene':
+        new CrestronHomeScene(this, accessory);
+        break;
+      default:
+        this.log.info('Unsupported accessory type:', accessory.context.device.type);
+        break;
     }
   }
 }
