@@ -33,7 +33,8 @@
             "Switch",
             "Dimmer",
             "Shade",
-            "Lighting"
+            "Lighting",
+            "genericIO"
           ]
         }
       }

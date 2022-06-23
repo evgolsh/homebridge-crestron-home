@@ -1,7 +1,6 @@
 import { API, DynamicPlatformPlugin, Logger, PlatformAccessory, PlatformConfig, Service, Characteristic } from 'homebridge';
 
 import { PLATFORM_NAME, PLUGIN_NAME } from './settings';
-import { CrestronHomePlatformAccessory } from './platformAccessory';
 import { CrestronHomeShade } from './CrestronHomeShade';
 import { CrestronHomeLight } from './CrestronHomeLight';
 import { CrestronHomeScene } from './CrestronHomeScene';
