@@ -41,9 +41,14 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
       log.debug('Executed didFinishLaunching callback');
       // run the method to discover / register your devices as accessories
       this.discoverDevices();
+      setInterval(this.refreshLogin.bind(this), 5 * 60 * 1000); //Login every 5 minutes
     });
   }
 
+  private refreshLogin(){
+    this.log.debug('Refreshing Login sessionj');
+    this.crestronClient.login();
+  }
 
 
   /**
