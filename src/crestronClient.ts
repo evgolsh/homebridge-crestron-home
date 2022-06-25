@@ -1,7 +1,6 @@
 import { Logger } from 'homebridge';
 import axios, { AxiosInstance, AxiosRequestConfig } from 'axios';
 import https from 'https';
-import {Mutex} from 'async-mutex';
 
 type LightState = {
   id: number;
@@ -42,7 +41,6 @@ export class CrestronClient {
   private crestronUri: string;
   private lastLogin: number = new Date().getTime() - 11 * 60 * 1000; // 11 minutes, Crestron session TTL is 10 minutes
   private NINE_MINUTES_MILLIS = 9 * 60 * 1000;
-  private loginMutex = new Mutex();
 
   private httpsAgent = new https.Agent({
     rejectUnauthorized: false,
