@@ -128,7 +128,7 @@ export class CrestronClient {
 
   public async getDevice(id: number) {
 
-    // await this.login();
+    await this.login();
 
     try {
       const response = await this.axiosClient.get(`/devices/${id}`);
@@ -143,7 +143,7 @@ export class CrestronClient {
 
   public async getShadeState(id: number){
 
-    // await this.login();
+    await this.login();
 
     try {
       const response = await this.axiosClient.get(`/Shades/${id}`);
@@ -161,7 +161,7 @@ export class CrestronClient {
     const shadesState = { shades: shades };
     this.log.debug('Setting shades state:', shades);
 
-    // await this.login();
+    await this.login();
     try {
       const response = await this.axiosClient.post(
         '/Shades/SetState',
@@ -178,7 +178,7 @@ export class CrestronClient {
     const lightsState = { lights: lights };
     //this.log.debug('Setting lights state:', lightsState);
 
-    // await this.login();
+    await this.login();
 
     try {
       const response = await this.axiosClient.post(
@@ -194,7 +194,7 @@ export class CrestronClient {
 
   public async getScene(sceneId: number): Promise<Scene>{
 
-    // await this.login();
+    await this.login();
     try {
       const response = await this.axiosClient.get(`/scenes/${sceneId}`);
       return response.data.scenes[0];
@@ -206,7 +206,7 @@ export class CrestronClient {
 
   public async recallScene(sceneId: number){
 
-    // await this.login();
+    await this.login();
     try {
       const response = await this.axiosClient.post(
         `/SCENES/RECALL/${sceneId}`,
@@ -220,14 +220,13 @@ export class CrestronClient {
     }
   }
 
-  public async login() {
+  public async login(): Promise<number> {
 
-    this.log.debug('Starting login...');
-    const release = await this.loginMutex.acquire(); // Mutex all login threads
+    // this.log.debug('Starting login...');
 
     if(new Date().getTime() - this.lastLogin < this.NINE_MINUTES_MILLIS ) {
-      this.log.debug('LOGIN: Session is still valid, doing nothing...');
-      return;
+      // this.log.debug('LOGIN: Session is still valid, doing nothing...');
+      return this.lastLogin;
     }
 
     try {
@@ -258,16 +257,15 @@ export class CrestronClient {
       );
 
       this.lastLogin = new Date().getTime();
+      return this.lastLogin;
     } catch (error) {
       if (axios.isAxiosError(error)) {
         this.log.error('Login error: ', error.message);
-        return;
+        return this.lastLogin;
       } else {
         this.log.error('Login unexpected error: ', error);
-        return;
+        return this.lastLogin;
       }
-    } finally{
-      release();
     }
   }
 }
