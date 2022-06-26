@@ -21,5 +21,6 @@ Two values are required for connecting Homebridge to Crestron controller:
    ![alt text](img/api-token.jpg)
 3. Enable accessories that will appear in the HomeKit:
    ![alt text](img/config.jpg)
+4. loginInterval: (Optional) Set re-login interval in minutes (default 4). According to Crestron documentation, login session is valid for 10 minutes. We keep session TTL 9 minutes and refresh session token with given interval.
    
 

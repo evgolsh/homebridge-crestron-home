@@ -41,20 +41,21 @@ export class CrestronClient {
   private crestronUri: string;
   private lastLogin: number = new Date().getTime() - 11 * 60 * 1000; // 11 minutes, Crestron session TTL is 10 minutes
   private NINE_MINUTES_MILLIS = 9 * 60 * 1000;
+  private loginInterval: number = 4 * 60 * 1000;
 
   private httpsAgent = new https.Agent({
     rejectUnauthorized: false,
   });
 
   private rooms: Room[] = [];
-  private scenes: Scene[] = [];
   private enabledTypes: string[] = [];
 
   constructor(
     crestronHost: string,
     apiToken: string,
     enabledTypes: Array<string>,
-    public readonly log: Logger) {
+    public readonly log: Logger,
+    loginInterval: number) {
 
     this.apiToken = apiToken;
     this.enabledTypes = enabledTypes;
@@ -62,6 +63,9 @@ export class CrestronClient {
     log.debug('Enabled types:', this.enabledTypes);
     this.log.debug('Configured Crestron Processor, trying to login to;', crestronHost);
     this.crestronUri = `https://${crestronHost}/cws/api`;
+
+    this.loginInterval = (loginInterval || 4) * 60 * 1000; //minutes
+    log.debug('Will relogin every', this.loginInterval);
   }
 
   public async getDevices() {
@@ -118,6 +122,7 @@ export class CrestronClient {
       this.log.info('Returning 149 devices, the stuff left behind are', devices.slice(149, 1024) || 'None');
 
       this.log.debug('Get Devices response: ', devices);
+      setInterval(this.login.bind(this), this.loginInterval);
       return d;
     } catch (error) {
       this.log.error('error getting devices: ', error);
@@ -220,10 +225,10 @@ export class CrestronClient {
 
   public async login(): Promise<number> {
 
-    // this.log.debug('Starting login...');
+    this.log.debug('Starting login...');
 
     if(new Date().getTime() - this.lastLogin < this.NINE_MINUTES_MILLIS ) {
-      // this.log.debug('LOGIN: Session is still valid, doing nothing...');
+      this.log.debug('LOGIN: Session is still valid, doing nothing...');
       return this.lastLogin;
     }
 
