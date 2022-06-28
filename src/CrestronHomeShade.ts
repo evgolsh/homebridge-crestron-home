@@ -63,10 +63,10 @@ export class CrestronHomeShade {
   async setShadeTargetPosition(value: CharacteristicValue){
 
     this.platform.log.debug('Set Shade target position called for: ', this.accessory.displayName, value);
-    this.shadeStates.TargetPosition = this.percentageToCrestronRangeValue(value as number);
+    this.shadeStates.TargetPosition = value as number;
 
     this.platform.crestronClient.setShadesState(
-      [{id: this.crestronId, position: this.shadeStates.TargetPosition}]);
+      [{id: this.crestronId, position: this.percentageToCrestronRangeValue(value as number)}]);
   }
 
   async getShadeTargetPosition(): Promise<CharacteristicValue>{

@@ -18,6 +18,7 @@ export class CrestronHomeScene {
     private readonly accessory: PlatformAccessory,
   ) {
 
+    // platform.log.debug('CREATING SCENE:', accessory.context.device);
     this.crestronId = accessory.context.device.id;
 
     // set accessory information
@@ -37,10 +38,6 @@ export class CrestronHomeScene {
 
         this.sceneStatus = this.accessory.context.device.status;
         break;
-      case 'Shade':
-        this.service = this.accessory.getService(this.platform.Service.Switch)
-            || this.accessory.addService(this.platform.Service.Switch);
-        break;
       case 'genericIO':
         this.service = this.accessory.getService(this.platform.Service.LockMechanism)
         || this.accessory.addService(this.platform.Service.LockMechanism);
@@ -54,8 +51,10 @@ export class CrestronHomeScene {
           .onSet(this.recallScene.bind(this));
 
         return;  // Finished with Lock setup, returning
-
       default:
+        // by default scenes are exposed as Switch
+        this.service = this.accessory.getService(this.platform.Service.Switch)
+        || this.accessory.addService(this.platform.Service.Switch);
         break;
     }
 

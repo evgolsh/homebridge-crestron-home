@@ -19,6 +19,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
   public crestronClient: CrestronClient;
+  private enabledTypes: string[] = [];
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
@@ -30,7 +31,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   ) {
 
     log.debug('Configured devices:', config.enabledTypes);
-    this.crestronClient = new CrestronClient(config.crestronHost, config.token, config.enabledTypes, log, config.loginInterval);
+    this.enabledTypes = config.enabledTypes;
+    this.crestronClient = new CrestronClient(config.crestronHost, config.token, log, config.loginInterval);
     this.log.debug('Finished initializing platform:', this.config.name);
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
@@ -98,8 +100,6 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
         // this.log.info('Removing existing accessory from cache:', existingAccessory.displayName);
       } else {
         // the accessory does not yet exist, so we need to create it
-        this.log.info('Adding new accessory:', device.name);
-
         // create a new accessory
         const accessory = new this.api.platformAccessory(device.name, uuid);
 
@@ -110,17 +110,25 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
         // create the accessory handler for the newly create accessory
         // this is imported from `platformAccessory.ts`
         // new CrestronHomePlatformAccessory(this, accessory);
-        this.createCrestronAccessory(accessory);
-
-        // link the accessory to your platform
-        this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        if(this.createCrestronAccessory(accessory)){
+          // link the accessory to your platform
+          this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+        }
       }
     }
   }
 
-  createCrestronAccessory(accessory) {
+  createCrestronAccessory(accessory: PlatformAccessory): boolean {
 
-    switch (accessory.context.device.type) {
+    const deviceType = accessory.context.device.type;
+
+    if (!this.enabledTypes.includes(accessory.context.device.type)) {
+      this.log.info('Device support is not enabled for:', deviceType);
+      return false;
+    }
+
+    this.log.info('Adding new accessory:', accessory.displayName);
+    switch (deviceType) {
       case 'Dimmer':  // Dimmer needs brightness, while Switch has On/Off only
       case 'Switch':
         new CrestronHomeLight(this, accessory);
@@ -135,5 +143,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
         this.log.info('Unsupported accessory type:', accessory.context.device.type);
         break;
     }
+
+    return true;
   }
 }

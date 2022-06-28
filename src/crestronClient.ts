@@ -48,19 +48,16 @@ export class CrestronClient {
   });
 
   private rooms: Room[] = [];
-  private enabledTypes: string[] = [];
+
 
   constructor(
     crestronHost: string,
     apiToken: string,
-    enabledTypes: Array<string>,
     public readonly log: Logger,
     loginInterval: number) {
 
     this.apiToken = apiToken;
-    this.enabledTypes = enabledTypes;
 
-    log.debug('Enabled types:', this.enabledTypes);
     this.log.debug('Configured Crestron Processor, trying to login to;', crestronHost);
     this.crestronUri = `https://${crestronHost}/cws/api`;
 
@@ -91,15 +88,14 @@ export class CrestronClient {
 
         const d: Device = {
           id: device.id,
-          type: device.type || device.subType,
+          type: deviceType,
           subType: deviceType,
           name: `${roomName} - ${device.name}`, // Name is "Room Name - Device Name"
           roomId: device.roomId,
           roomName: roomName || '',
         };
 
-        this.enabledTypes.includes(deviceType) ?
-          devices.push(d) : this.log.info('Device support is not enabled for:', deviceType);
+        devices.push(d);
       }
 
       for( const scene of crestronData[1].data.scenes){
@@ -114,16 +110,16 @@ export class CrestronClient {
           roomName: roomName || '',
         };
 
-        this.enabledTypes.includes(scene.type) ?
-          devices.push(d) : this.log.info('Scene support is not enabled for:', scene.type);
+        devices.push(d);
       }
 
-      const d = devices.slice(0, 149);
-      this.log.info('Returning 149 devices, the stuff left behind are', devices.slice(149, 1024) || 'None');
+      if (devices.length > 149) {
+        this.log.warn('Returning more than 149 devices, Homebridge may crash');
+      }
 
-      this.log.debug('Get Devices response: ', devices);
+      // this.log.debug('Get Devices response: ', devices);
       setInterval(this.login.bind(this), this.loginInterval);
-      return d;
+      return devices;
     } catch (error) {
       this.log.error('error getting devices: ', error);
     }

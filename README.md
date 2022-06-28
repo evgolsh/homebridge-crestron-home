@@ -1,7 +1,7 @@
 
 # Homebridge Crestron Home Plugin
 
-This plugin connects to Crestron Home CWS server using REST API and doesn't require anything to be deployed into Crestron controller. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that runs CWS server.
+This plugin connects to Crestron Home CWS server using REST API and doesn't require anything to be deployed into the Crestron controller. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that runs CWS server.
 
 ## Supported accessories
 The following devices are currently supported:
@@ -14,7 +14,7 @@ The following devices are currently supported:
 ## Configuration
 Two values are required for connecting Homebridge to Crestron controller:
 1. Controller IP address (or hostname if DNS is configured)
-2. Web API Authentication Token
+2. Web API Authentication Token.
    Authentication Token can be found in the Crestron Home setup app. Go to settings and click on "System control options" in this screen:
    ![alt text](img/installer-setting.jpg)
    and then copy value of the Authentication token in this screen:
