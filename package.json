@@ -2,7 +2,7 @@
   "private": false,
   "displayName": "Crestron Home Homebridge plugin",
   "name": "homebridge-crestron-home",
-  "version": "1.0.6",
+  "version": "1.0.7",
   "description": "Crestron Home Homebridge plugin",
   "license": "Apache-2.0",
   "repository": {
