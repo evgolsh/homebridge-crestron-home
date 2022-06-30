@@ -133,7 +133,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
     const deviceType = accessory.context.device.type;
 
     if (!this.enabledTypes.includes(accessory.context.device.type)) {
-      this.log.info('Device support is not enabled for:', deviceType);
+      this.log.debug('Device support is not enabled for:', deviceType);
       return false;
     }
 
@@ -158,6 +158,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   }
 
   async updateDevices(){
+
+    this.log.info('Updating Devices state');
     const devices = await this.crestronClient.getDevices() || [];
 
     for (const device of devices) {
