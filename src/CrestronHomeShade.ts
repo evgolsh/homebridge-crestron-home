@@ -1,4 +1,4 @@
-import { Service, PlatformAccessory, CharacteristicValue, Nullable } from 'homebridge';
+import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
 import { CrestronDevice } from './crestronClient';
 
 import { CrestronHomePlatform, CrestronAccessory } from './platform';
