@@ -26,13 +26,16 @@ type Scene = {
   status: boolean;
 };
 
-interface Device{
+export interface CrestronDevice{
   id: number;
   name: string;
   type: string;
   subType: string;
   roomId: number;
   roomName: string;
+  status: boolean;
+  level: number;
+  position: number;
 }
 
 export class CrestronClient {
@@ -41,7 +44,6 @@ export class CrestronClient {
   private crestronUri: string;
   private lastLogin: number = new Date().getTime() - 11 * 60 * 1000; // 11 minutes, Crestron session TTL is 10 minutes
   private NINE_MINUTES_MILLIS = 9 * 60 * 1000;
-  private loginInterval: number = 4 * 60 * 1000;
 
   private httpsAgent = new https.Agent({
     rejectUnauthorized: false,
@@ -53,29 +55,26 @@ export class CrestronClient {
   constructor(
     crestronHost: string,
     apiToken: string,
-    public readonly log: Logger,
-    loginInterval: number) {
+    public readonly log: Logger ) {
 
     this.apiToken = apiToken;
 
     this.log.debug('Configured Crestron Processor, trying to login to;', crestronHost);
     this.crestronUri = `https://${crestronHost}/cws/api`;
-
-    this.loginInterval = (loginInterval || 4) * 60 * 1000; //minutes
-    log.debug('Will relogin every', this.loginInterval);
   }
 
   public async getDevices() {
     this.log.debug('Start discovering devices...');
     await this.login();
 
-    const devices: Device[] = [];
+    const devices: CrestronDevice[] = [];
 
     try {
       const crestronData = await Promise.all([
         this.axiosClient.get('/rooms'),
         this.axiosClient.get('/scenes'),
         this.axiosClient.get('/devices'),
+        this.axiosClient.get('/shades'),
       ]);
 
       this.rooms = crestronData[0].data.rooms;
@@ -85,14 +84,21 @@ export class CrestronClient {
 
         const roomName = this.rooms.find(r => r.id === device.roomId)?.name;
         const deviceType = device.subType || device.type;
+        let shadePosition = 0;
+        if(deviceType === 'Shade'){
+          shadePosition = crestronData[3].data.shades.find(sh => sh.id === device.id)?.position;
+        }
 
-        const d: Device = {
+        const d: CrestronDevice = {
           id: device.id,
           type: deviceType,
           subType: deviceType,
           name: `${roomName} - ${device.name}`, // Name is "Room Name - Device Name"
           roomId: device.roomId,
           roomName: roomName || '',
+          level: device.level,
+          status: device.status,
+          position: shadePosition,
         };
 
         devices.push(d);
@@ -101,13 +107,16 @@ export class CrestronClient {
       for( const scene of crestronData[1].data.scenes){
 
         const roomName = this.rooms.find(r => r.id === scene.roomId)?.name;
-        const d: Device = {
+        const d: CrestronDevice = {
           id: scene.id,
           type: 'Scene',
           subType: scene.type,
           name: `${roomName} - ${scene.name}`, // Name is "Room Name - Service Name"
           roomId: scene.roomId,
           roomName: roomName || '',
+          level: 0,
+          status: scene.status,
+          position: 0,
         };
 
         devices.push(d);
@@ -118,7 +127,6 @@ export class CrestronClient {
       }
 
       // this.log.debug('Get Devices response: ', devices);
-      setInterval(this.login.bind(this), this.loginInterval);
       return devices;
     } catch (error) {
       this.log.error('error getting devices: ', error);

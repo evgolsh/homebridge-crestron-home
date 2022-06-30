@@ -1,13 +1,14 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
+import { CrestronDevice } from './crestronClient';
 
-import { CrestronHomePlatform } from './platform';
+import { CrestronHomePlatform, CrestronAccessory } from './platform';
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class CrestronHomeLight {
+export class CrestronHomeLight implements CrestronAccessory{
   private service: Service;
 
   private lightStates = {
@@ -15,7 +16,7 @@ export class CrestronHomeLight {
     Brightness: 100,
   };
 
-  private crestronId = 0;
+  public crestronId = 0;
 
   constructor(
     private readonly platform: CrestronHomePlatform,
@@ -43,7 +44,7 @@ export class CrestronHomeLight {
     // each service must implement at-minimum the "required characteristics" for the given service type
     // see https://developers.homebridge.io/#/service/Lightbulb
     accessory.context.device.level > 0 ? this.lightStates.On = true : false;
-    this.lightStates.Brightness = accessory.context.device.level;
+    this.lightStates.Brightness = this.crestronRangeValueToPercentage(accessory.context.device.level);
 
     // register handlers for the On/Off Characteristic
     this.service.getCharacteristic(this.platform.Characteristic.On)
@@ -55,6 +56,13 @@ export class CrestronHomeLight {
       this.service.getCharacteristic(this.platform.Characteristic.Brightness)
         .onSet(this.setBrightness.bind(this));       // SET - bind to the 'setBrightness` method below
     }
+  }
+
+  public updateState(device: CrestronDevice): void {
+    const level = this.crestronRangeValueToPercentage(device.level);
+    this.platform.log.debug('Updating Light state:', level);
+    level > 0 ? this.lightStates.On = true : false;
+    this.lightStates.Brightness = level;
   }
 
   /**
@@ -74,16 +82,10 @@ export class CrestronHomeLight {
    * Handle the "GET" requests from HomeKit
    * These are sent when HomeKit wants to know the current state of the accessory, for example, checking if a Light bulb is on.
    */
-  async getLightsState(): Promise<CharacteristicValue> {
+  getLightsState(): CharacteristicValue {
 
-    const deviceState = await this.platform.crestronClient.getDevice(this.crestronId);
-
-    this.platform.log.debug('Get Light state for:', this.accessory.displayName); //, deviceState);
-    const isOn = deviceState.level > 0 ? true : false;
-
-    this.lightStates.On = isOn;
-    this.lightStates.Brightness = this.crestronRangeValueToPercentage(deviceState.level);
-    return isOn;
+    this.platform.log.debug('Get Light state for:', this.accessory.displayName, this.lightStates);
+    return this.lightStates.On;
   }
 
   /**
@@ -92,10 +94,10 @@ export class CrestronHomeLight {
    */
   async setBrightness(value: CharacteristicValue) {
     // implement your own code to set the brightness
-    this.lightStates.Brightness = this.percentageToCrestronRangeValue(value as number);
+    this.lightStates.Brightness = value as number;
 
     this.platform.crestronClient.setLightsState(
-      [{ id: this.crestronId, level: this.lightStates.Brightness, time: 0 }]);
+      [{ id: this.crestronId, level: this.percentageToCrestronRangeValue(value as number), time: 0 }]);
     this.platform.log.debug('Set Brightness -> ', value);
   }
 

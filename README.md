@@ -21,6 +21,43 @@ Two values are required for connecting Homebridge to Crestron controller:
    ![alt text](img/api-token.jpg)
 3. Enable accessories that will appear in the HomeKit:
    ![alt text](img/config.jpg)
-4. loginInterval: (Optional) Set re-login interval in minutes (default 4). According to Crestron documentation, login session is valid for 10 minutes. We keep session TTL 9 minutes and refresh session token with given interval.
+4. updateInterval: (Optional) Set refresh status interval in seconds (default 30). According to Crestron documentation, login session is valid for 10 minutes. We keep session TTL 9 minutes, relogin and refresh devices status with the given interval.
+
+## Notes
+* Delete Homebridge accessories cache after each plugin update
+* After every upgrade of the Crestron firmware, you need to update the Web API Authentication Token in the Crestron Home Setup app (or XPanel), copy the value, update configuration and restart the Crestron controller
+* If you have more than 149 devices and scenes, this plugin will crash. In this case you need to run this plugin in the [Homebridge child bridge mode](https://github.com/homebridge/homebridge/wiki/Child-Bridges) and split devices accross different instances of the plugin. Example configuration:
+  ```json
+  {
+            "name": "Crestron Home Platform",
+            "crestronHost": "YOUR_CONTROLLER_IP",
+            "token": "YOUR_AUTH_KEY",
+            "enabledTypes": [
+                "Switch",
+                "Dimmer"
+            ],
+            "updateInterval": 30,
+            "_bridge": {
+                "username": "07:12:4D:38:0C:09",
+                "port": 51811
+            },
+            "platform": "CrestronHomePlatform"
+        },
+        {
+            "name": "Crestron Home Platform",
+            "crestronHost": "YOUR_CONTROLLER_IP",
+            "token": "YOUR_AUTH_KEY",
+            "enabledTypes": [
+                "Shade",
+                "Scene"
+            ],
+            "updateInterval": 30,
+            "_bridge": {
+                "username": "007:12:4D:38:0C:10",
+                "port": 51812
+            },
+            "platform": "CrestronHomePlatform"
+        },
+   ```
    
 

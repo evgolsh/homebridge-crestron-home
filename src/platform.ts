@@ -6,8 +6,12 @@ import { CrestronHomeLight } from './CrestronHomeLight';
 import { CrestronHomeScene } from './CrestronHomeScene';
 
 
-import { CrestronClient } from './crestronClient';
+import { CrestronClient, CrestronDevice } from './crestronClient';
 
+export interface CrestronAccessory{
+  crestronId: number;
+  updateState(device: CrestronDevice): void;
+}
 
 /**
  * HomebridgePlatform
@@ -20,9 +24,12 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
   public crestronClient: CrestronClient;
   private enabledTypes: string[] = [];
+  private updateInterval: number = 30 * 1000;
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
+  private crestronDevices: CrestronAccessory[] = [];
+
 
   constructor(
     public readonly log: Logger,
@@ -32,7 +39,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
     log.debug('Configured devices:', config.enabledTypes);
     this.enabledTypes = config.enabledTypes;
-    this.crestronClient = new CrestronClient(config.crestronHost, config.token, log, config.loginInterval);
+    this.crestronClient = new CrestronClient(config.crestronHost, config.token, log);
+    this.updateInterval = (config.updateInterval || 30) * 1000;
     this.log.debug('Finished initializing platform:', this.config.name);
 
     // When this event is fired it means Homebridge has restored all cached accessories from disk.
@@ -43,6 +51,9 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
       log.debug('Executed didFinishLaunching callback');
       // run the method to discover / register your devices as accessories
       this.discoverDevices();
+
+      log.debug('Will update devices every ms:', this.updateInterval);
+      setInterval(this.updateDevices.bind(this), this.updateInterval);
     });
   }
 
@@ -64,8 +75,6 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
    */
   async discoverDevices() {
 
-    await this.crestronClient.login();
-
     const crestronDevices = await this.crestronClient.getDevices() || [];
     //this.log.debug(crestronDevices);
 
@@ -86,8 +95,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
         this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
         // if you need to update the accessory.context then you should run `api.updatePlatformAccessories`. eg.:
-        // existingAccessory.context.device = device;
-        // this.api.updatePlatformAccessories([existingAccessory]);
+        existingAccessory.context.device = device;
+        this.api.updatePlatformAccessories([existingAccessory]);
 
         // create the accessory handler for the restored accessory
         // this is imported from `platformAccessory.ts`
@@ -113,6 +122,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
         if(this.createCrestronAccessory(accessory)){
           // link the accessory to your platform
           this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+          this.accessories.push(accessory);
         }
       }
     }
@@ -131,13 +141,13 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
     switch (deviceType) {
       case 'Dimmer':  // Dimmer needs brightness, while Switch has On/Off only
       case 'Switch':
-        new CrestronHomeLight(this, accessory);
+        this.crestronDevices.push(new CrestronHomeLight(this, accessory));
         break;
       case 'Shade':
-        new CrestronHomeShade(this, accessory);
+        this.crestronDevices.push(new CrestronHomeShade(this, accessory));
         break;
       case 'Scene':
-        new CrestronHomeScene(this, accessory);
+        this.crestronDevices.push(new CrestronHomeScene(this, accessory));
         break;
       default:
         this.log.info('Unsupported accessory type:', accessory.context.device.type);
@@ -145,5 +155,30 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
     }
 
     return true;
+  }
+
+  async updateDevices(){
+    const devices = await this.crestronClient.getDevices() || [];
+
+    for (const device of devices) {
+      const existingDevice = this.crestronDevices.find(accessory => accessory.crestronId === device.id);
+
+      if(existingDevice){
+        existingDevice.updateState(device);
+      } else{
+        this.log.debug('New device discovered:', device.name);
+        const uuid = this.api.hap.uuid.generate(device.id.toString());
+        const accessory = new this.api.platformAccessory(device.name, uuid);
+        accessory.context.device = device;
+
+        if(this.createCrestronAccessory(accessory)){
+          // link the accessory to your platform
+          this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
+          this.accessories.push(accessory);
+        }
+
+      }
+
+    }
   }
 }

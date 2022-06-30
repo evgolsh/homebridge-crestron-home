@@ -37,12 +37,12 @@
           ]
         }
       },
-      "loginInterval": {
-        "title": "Login Interval (minutes). Default 4",
-        "default": 4,
+      "updateInterval": {
+        "title": "Refresh Devices Interval (seconds). Default 10",
+        "default": 30,
         "type": "integer",
-        "minimum": 1,
-        "maximum": 10,
+        "minimum": 10,
+        "maximum": 540,
         "required": false
       }
     }

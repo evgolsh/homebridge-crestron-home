@@ -1,16 +1,17 @@
 import { Service, PlatformAccessory, CharacteristicValue } from 'homebridge';
+import { CrestronDevice } from './crestronClient';
 
-import { CrestronHomePlatform } from './platform';
+import { CrestronHomePlatform, CrestronAccessory } from './platform';
 
 /**
  * Platform Accessory
  * An instance of this class is created for each accessory your platform registers
  * Each accessory may expose multiple services of different service types.
  */
-export class CrestronHomeScene {
-  private service!: Service;
+export class CrestronHomeScene implements CrestronAccessory {
+  public crestronId = 0;
 
-  private crestronId = 0;
+  private service!: Service;
   private sceneStatus = false;
 
   constructor(
@@ -20,6 +21,7 @@ export class CrestronHomeScene {
 
     // platform.log.debug('CREATING SCENE:', accessory.context.device);
     this.crestronId = accessory.context.device.id;
+    this.sceneStatus = accessory.context.device.status;
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -65,16 +67,20 @@ export class CrestronHomeScene {
       .onSet(this.recallScene.bind(this));
   }
 
-  async getSceneState(): Promise<CharacteristicValue>{
-    const scene = await this.platform.crestronClient.getScene(this.crestronId);
-    this.platform.log.debug('Get scene state:', scene);
+  public updateState(device: CrestronDevice): void {
+    this.platform.log.debug('Updating Scene status:', this.accessory.displayName, device.status);
+    this.sceneStatus = device.status;
+  }
 
-    this.sceneStatus = scene.status;
+  getSceneState(): CharacteristicValue{
+    this.platform.log.debug('Get scene state:', this.sceneStatus);
+
     return this.sceneStatus;
   }
 
   async recallScene(value: CharacteristicValue) {
 
+    this.sceneStatus ? this.sceneStatus = false : this.sceneStatus = true;
     this.platform.log.debug('Recalling scene with status:', value);
     this.platform.crestronClient.recallScene(this.crestronId);
   }
