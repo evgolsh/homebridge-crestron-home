@@ -25,7 +25,6 @@ export class CrestronHomeShade implements CrestronAccessory {
     this.crestronId = accessory.context.device.id;
     this.shadeStates.CurrentPosition = this.crestronRangeValueToPercentage(accessory.context.device.position);
     this.shadeStates.TargetPosition = this.crestronRangeValueToPercentage(accessory.context.device.position);
-    // this.initShadePositions();
 
     // set accessory information
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
@@ -52,6 +51,11 @@ export class CrestronHomeShade implements CrestronAccessory {
     const position = this.crestronRangeValueToPercentage(device.position);
     this.platform.log.debug('Updating shade position:', this.accessory.displayName, position);
     this.shadeStates.CurrentPosition = position;
+    if(this.shadeStates.PositionState === this.platform.Characteristic.PositionState.STOPPED){
+      this.shadeStates.TargetPosition = position;
+    }
+    this.service.getCharacteristic(this.platform.Characteristic.CurrentPosition).updateValue(this.shadeStates.CurrentPosition);
+    this.service.getCharacteristic(this.platform.Characteristic.TargetPosition).updateValue(this.shadeStates.TargetPosition);
   }
 
   getShadeCurrentPosition(): CharacteristicValue{
@@ -74,6 +78,11 @@ export class CrestronHomeShade implements CrestronAccessory {
     this.platform.crestronClient.setShadesState(
       [{id: this.crestronId, position: this.percentageToCrestronRangeValue(value as number)}]);
 
+    if(this.shadeStates.CurrentPosition > this.shadeStates.TargetPosition){
+      this.shadeStates.PositionState = this.platform.Characteristic.PositionState.DECREASING;
+    } else{
+      this.shadeStates.PositionState = this.platform.Characteristic.PositionState.INCREASING;
+    }
     this.activeInterval = setInterval(this.updateShadePositions.bind(this), 10 * 1000);
   }
 
@@ -108,6 +117,7 @@ export class CrestronHomeShade implements CrestronAccessory {
 
     if(this.shadeStates.TargetPosition === this.shadeStates.CurrentPosition){
       this.platform.log.debug('Target position achieved, Stopping interval', this.activeInterval);
+      this.shadeStates.PositionState = this.platform.Characteristic.PositionState.STOPPED;
       clearInterval(this.activeInterval);
     }
   }

@@ -32,18 +32,12 @@ export class CrestronHomeLight implements CrestronAccessory{
       .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
 
     this.platform.log.debug('Adding Lightbulb', this.accessory.displayName, accessory.context.device);
-    // get the LightBulb service if it exists, otherwise create a new LightBulb service
-    // you can create multiple services for each accessory
     this.service = this.accessory.getService(this.platform.Service.Lightbulb)
       || this.accessory.addService(this.platform.Service.Lightbulb);
 
-    // set the service name, this is what is displayed as the default name on the Home app
     this.service.setCharacteristic(this.platform.Characteristic.Name, accessory.context.device.name);
 
-
-    // each service must implement at-minimum the "required characteristics" for the given service type
-    // see https://developers.homebridge.io/#/service/Lightbulb
-    accessory.context.device.level > 0 ? this.lightStates.On = true : false;
+    this.lightStates.On = (accessory.context.device.level > 0);
     this.lightStates.Brightness = this.crestronRangeValueToPercentage(accessory.context.device.level);
 
     // register handlers for the On/Off Characteristic
@@ -60,9 +54,14 @@ export class CrestronHomeLight implements CrestronAccessory{
 
   public updateState(device: CrestronDevice): void {
     const level = this.crestronRangeValueToPercentage(device.level);
-    this.platform.log.debug('Updating Light state:', level);
-    level > 0 ? this.lightStates.On = true : false;
+    this.platform.log.debug('Updating Light state:', this.accessory.displayName, level);
+    this.lightStates.On = (level > 0);
     this.lightStates.Brightness = level;
+
+    this.service.getCharacteristic(this.platform.Characteristic.On).updateValue(this.lightStates.On);
+    if(this.accessory.context.device.subType === 'Dimmer') {
+      this.service.getCharacteristic(this.platform.Characteristic.Brightness).updateValue(this.lightStates.Brightness);
+    }
   }
 
   /**

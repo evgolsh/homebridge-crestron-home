@@ -70,10 +70,13 @@ export class CrestronHomeScene implements CrestronAccessory {
   public updateState(device: CrestronDevice): void {
     this.platform.log.debug('Updating Scene status:', this.accessory.displayName, device.status);
     this.sceneStatus = device.status;
+    if (device.subType !== 'genericIO') {
+      this.service.getCharacteristic(this.platform.Characteristic.On).updateValue(this.sceneStatus);
+    }
   }
 
   getSceneState(): CharacteristicValue{
-    this.platform.log.debug('Get scene state:', this.sceneStatus);
+    this.platform.log.debug('Get scene state:', this.accessory.displayName, this.sceneStatus);
 
     return this.sceneStatus;
   }

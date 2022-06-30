@@ -45,7 +45,7 @@ export class CrestronHomePlatformAccessory {
         this.createLightBulbService(accessory);
         // each service must implement at-minimum the "required characteristics" for the given service type
         // see https://developers.homebridge.io/#/service/Lightbulb
-        accessory.context.device.level > 0 ? this.lightStates.On = true : false;
+        this.lightStates.On = (accessory.context.device.level > 0);
         this.lightStates.Brightness = accessory.context.device.level;
 
         // register handlers for the On/Off Characteristic
@@ -156,7 +156,7 @@ export class CrestronHomePlatformAccessory {
     const deviceState = await this.platform.crestronClient.getDevice(this.crestronId);
 
     this.platform.log.debug('Get Light state for:', this.accessory.displayName); //, deviceState);
-    const isOn = deviceState.level > 0 ? true : false;
+    const isOn = (deviceState.level > 0);
 
     this.lightStates.On = isOn;
     // if you need to return an error to show the device as "Not Responding" in the Home app:
