@@ -32,14 +32,14 @@ export class CrestronHomeScene implements CrestronAccessory {
 
 
     switch(accessory.context.device.subType) {
-      case 'Lighting':  // Expose a Lighting schene as a LightBulb
-        this.platform.log.debug('Adding Lighting scene Lightbulb:', this.accessory.displayName, accessory.context.device);
+      // case 'Lighting':  // Expose a Lighting schene as a LightBulb
+      //   this.platform.log.debug('Adding Lighting scene Lightbulb:', this.accessory.displayName, accessory.context.device);
 
-        this.service = this.accessory.getService(this.platform.Service.Lightbulb)
-      || this.accessory.addService(this.platform.Service.Lightbulb);
+      //   this.service = this.accessory.getService(this.platform.Service.Lightbulb)
+      // || this.accessory.addService(this.platform.Service.Lightbulb);
 
-        this.sceneStatus = this.accessory.context.device.status;
-        break;
+      //   this.sceneStatus = this.accessory.context.device.status;
+      //   break;
       case 'genericIO':
         this.service = this.accessory.getService(this.platform.Service.LockMechanism)
         || this.accessory.addService(this.platform.Service.LockMechanism);
