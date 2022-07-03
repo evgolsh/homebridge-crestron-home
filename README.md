@@ -7,8 +7,7 @@ This plugin connects to Crestron Home CWS server using REST API and doesn't requ
 The following devices are currently supported:
 * Lights and Dimmers
 * Shades
-* Lighting scenes exposed as LightBulb in the HomeKit
-* Shade scenes exposed as Switch 
+* Shade and Lighting scenes exposed as Switch 
 * genericIO scenes exposed as Locks
 
 ## Configuration
