@@ -38,7 +38,7 @@
         }
       },
       "updateInterval": {
-        "title": "Refresh Devices Interval (seconds). Default 10",
+        "title": "Refresh Devices Interval (seconds). Default 30",
         "default": 30,
         "type": "integer",
         "minimum": 10,
