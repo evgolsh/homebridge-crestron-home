@@ -93,7 +93,7 @@ export class CrestronClient {
           id: device.id,
           type: deviceType,
           subType: deviceType,
-          name: `${roomName} - ${device.name}`, // Name is "Room Name - Device Name"
+          name: `${roomName} ${device.name}`, // Name is "Room Name Device Name"
           roomId: device.roomId,
           roomName: roomName || '',
           level: device.level,
@@ -111,7 +111,7 @@ export class CrestronClient {
           id: scene.id,
           type: 'Scene',
           subType: scene.type,
-          name: `${roomName} - ${scene.name}`, // Name is "Room Name - Service Name"
+          name: `${roomName} ${scene.name}`, // Name is "Room Name Service Name"
           roomId: scene.roomId,
           roomName: roomName || '',
           level: 0,
