@@ -96,9 +96,9 @@ export class CrestronClient {
           name: `${roomName} ${device.name}`, // Name is "Room Name Device Name"
           roomId: device.roomId,
           roomName: roomName || '',
-          level: device.level,
-          status: device.status,
-          position: shadePosition,
+          level: device.level || 0,
+          status: device.status || false,
+          position: shadePosition || 0,
         };
 
         devices.push(d);
@@ -123,7 +123,7 @@ export class CrestronClient {
       }
 
       if (devices.length > 149) {
-        this.log.warn('Returning more than 149 devices, Homebridge may crash');
+        this.log.warn('Returning more than 149 devices, Homebridge may crash - ', devices.length);
       }
 
       // this.log.debug('Get Devices response: ', devices);

@@ -30,7 +30,7 @@ export class CrestronHomeShade implements CrestronAccessory {
     this.accessory.getService(this.platform.Service.AccessoryInformation)!
       .setCharacteristic(this.platform.Characteristic.Manufacturer, 'Crestron Electronics')
       .setCharacteristic(this.platform.Characteristic.Model, 'Default-Model')
-      .setCharacteristic(this.platform.Characteristic.SerialNumber, 'Default-Serial');
+      .setCharacteristic(this.platform.Characteristic.SerialNumber, `Crestron-${this.crestronId}`);
 
 
     this.service = this.accessory.getService(this.platform.Service.WindowCovering)

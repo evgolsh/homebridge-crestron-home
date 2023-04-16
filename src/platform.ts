@@ -23,8 +23,8 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   public readonly Characteristic: typeof Characteristic = this.api.hap.Characteristic;
 
   public crestronClient: CrestronClient;
-  private enabledTypes: string[] = [];
-  private updateInterval: number = 30 * 1000;
+  public readonly enabledTypes: string[] = [];
+  public readonly updateInterval: number = 30 * 1000;
 
   // this is used to track restored cached accessories
   public readonly accessories: PlatformAccessory[] = [];
