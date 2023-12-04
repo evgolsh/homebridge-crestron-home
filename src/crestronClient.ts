@@ -130,6 +130,7 @@ export class CrestronClient {
       return devices;
     } catch (error) {
       this.log.error('error getting devices: ', error);
+      return [];
     }
   }
 

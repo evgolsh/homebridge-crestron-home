@@ -22,7 +22,6 @@ const config: PlatformConfig = {
   crestronHost: 'http://localhost',
   token: 'test_token',
   platform: 'test_platform',
-  // Add any other properties you need for your tests
 };
 
 describe('CrestronHomePlatform', () => {
@@ -51,6 +50,4 @@ describe('CrestronHomePlatform', () => {
 
     expect(mockedCrestronClient.getDevices).toHaveBeenCalledTimes(1);
   });
-
-  // Add more tests as needed.
 });
