@@ -63,13 +63,14 @@ export class CrestronClient {
     this.crestronUri = `https://${crestronHost}/cws/api`;
   }
 
-  public async getDevices() {
+  public async getDevices(enabledTypes: string[]) {
     this.log.debug('Start discovering devices...');
-    await this.login();
 
     const devices: CrestronDevice[] = [];
 
     try {
+      await this.login();
+
       const crestronData = await Promise.all([
         this.axiosClient.get('/rooms'),
         this.axiosClient.get('/scenes'),
@@ -101,7 +102,10 @@ export class CrestronClient {
           position: shadePosition || 0,
         };
 
-        devices.push(d);
+        if (enabledTypes.includes(deviceType)){
+          devices.push(d);
+        }
+
       }
 
       for( const scene of crestronData[1].data.scenes){
@@ -119,7 +123,9 @@ export class CrestronClient {
           position: 0,
         };
 
-        devices.push(d);
+        if (enabledTypes.includes('Scene')){
+          devices.push(d);
+        }
       }
 
       // if (devices.length > 149) {

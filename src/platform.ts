@@ -75,7 +75,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
    */
   async discoverDevices() {
 
-    const crestronDevices = await this.crestronClient.getDevices() || [];
+    const crestronDevices = await this.crestronClient.getDevices(this.enabledTypes);
 
     if(crestronDevices.length > 149){
       this.log.warn('Found more than 149 devices, Homebridge will crash - truncating to 149 !!!');
@@ -137,10 +137,10 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
 
     const deviceType = accessory.context.device.type;
 
-    if (!this.enabledTypes.includes(accessory.context.device.type)) {
-      this.log.debug('Device support is not enabled for:', deviceType);
-      return false;
-    }
+    // if (!this.enabledTypes.includes(accessory.context.device.type)) {
+    //   this.log.debug('Device support is not enabled for:', deviceType);
+    //   return false;
+    // }
 
     this.log.info('Adding new accessory:', accessory.displayName);
     switch (deviceType) {
@@ -165,7 +165,7 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   async updateDevices(){
 
     this.log.info('Updating Devices state');
-    const devices = await this.crestronClient.getDevices() || [];
+    const devices = await this.crestronClient.getDevices(this.enabledTypes);
 
     for (const device of devices) {
       const uuid = this.api.hap.uuid.generate(device.id.toString());

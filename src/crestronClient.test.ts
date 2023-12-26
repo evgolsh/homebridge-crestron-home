@@ -28,7 +28,7 @@ describe('CrestronClient', () => {
       level: 50, status: true }] });
     mockAxios.onGet('/shades').reply(200, { shades: [] });
 
-    const devices = await client.getDevices();
+    const devices = await client.getDevices([ 'SceneType', 'SubType', 'Shade', 'Scene']);
 
     const expectedDevices = [
       { id: 201, level: 50, name: 'Living Room Device 1', position: 0, roomId: 1, roomName: 'Living Room',
