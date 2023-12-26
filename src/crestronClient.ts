@@ -122,9 +122,9 @@ export class CrestronClient {
         devices.push(d);
       }
 
-      if (devices.length > 149) {
-        this.log.warn('Returning more than 149 devices, Homebridge may crash - ', devices.length);
-      }
+      // if (devices.length > 149) {
+      //   this.log.warn('Returning more than 149 devices, Homebridge may crash - ', devices.length);
+      // }
 
       // this.log.debug('Get Devices response: ', devices);
       return devices;

@@ -76,6 +76,11 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
   async discoverDevices() {
 
     const crestronDevices = await this.crestronClient.getDevices() || [];
+
+    if(crestronDevices.length > 149){
+      this.log.warn('Found more than 149 devices, Homebridge will crash - truncating to 149 !!!');
+      crestronDevices.length = 149;
+    }
     //this.log.debug(crestronDevices);
 
     // loop over the discovered devices and register each one if it has not already been registered
@@ -171,19 +176,17 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
       if (existingDevice) {
         // The device exists and has already been restored during the 'discoverDevices()' call
         existingDevice.updateState(device);
-      } 
-      else if (existingAccessory) {
+      } else if (existingAccessory) {
         // The device already exists in the HB cache, but has not yet been restored by the plugin
         this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
 
         existingAccessory.context.device = device;
         this.api.updatePlatformAccessories([existingAccessory]);
         this.createCrestronAccessory(existingAccessory);
-      }
-      else {
+      } else {
         // The device does not exist and should be created
         this.log.debug('New device discovered:', device.name);
-        
+
         const accessory = new this.api.platformAccessory(device.name, uuid);
         accessory.context.device = device;
 
