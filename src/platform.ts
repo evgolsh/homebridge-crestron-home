@@ -163,24 +163,36 @@ export class CrestronHomePlatform implements DynamicPlatformPlugin {
     const devices = await this.crestronClient.getDevices() || [];
 
     for (const device of devices) {
-      const existingDevice = this.crestronDevices.find(accessory => accessory.crestronId === device.id);
+      const uuid = this.api.hap.uuid.generate(device.id.toString());
 
-      if(existingDevice){
+      const existingDevice = this.crestronDevices.find(accessory => accessory.crestronId === device.id);
+      const existingAccessory = this.accessories.find(accessory => accessory.UUID === uuid);
+
+      if (existingDevice) {
+        // The device exists and has already been restored during the 'discoverDevices()' call
         existingDevice.updateState(device);
-      } else{
+      } 
+      else if (existingAccessory) {
+        // The device already exists in the HB cache, but has not yet been restored by the plugin
+        this.log.info('Restoring existing accessory from cache:', existingAccessory.displayName);
+
+        existingAccessory.context.device = device;
+        this.api.updatePlatformAccessories([existingAccessory]);
+        this.createCrestronAccessory(existingAccessory);
+      }
+      else {
+        // The device does not exist and should be created
         this.log.debug('New device discovered:', device.name);
-        const uuid = this.api.hap.uuid.generate(device.id.toString());
+        
         const accessory = new this.api.platformAccessory(device.name, uuid);
         accessory.context.device = device;
 
-        if(this.createCrestronAccessory(accessory)){
+        if (this.createCrestronAccessory(accessory)) {
           // link the accessory to your platform
           this.api.registerPlatformAccessories(PLUGIN_NAME, PLATFORM_NAME, [accessory]);
           this.accessories.push(accessory);
         }
-
       }
-
     }
   }
 }
