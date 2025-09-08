@@ -1,0 +1,31 @@
+{
+  "scanDate": "2025-08-31T05:21:46.141Z",
+  "endpointData": {
+    "/audio": {
+      "description": "The Pyng Rest API allows consumers to access and control Pyng associated devices that are connected and/or online with the Pyng control system. Refer to the user's guide for more information.",
+      "version": "2.000.0004"
+    },
+    "/audiodevices": {
+      "description": "The Pyng Rest API allows consumers to access and control Pyng associated devices that are connected and/or online with the Pyng control system. Refer to the user's guide for more information.",
+      "version": "2.000.0004"
+    },
+    "/mediaplayers": {
+      "description": "The Pyng Rest API allows consumers to access and control Pyng associated devices that are connected and/or online with the Pyng control system. Refer to the user's guide for more information.",
+      "version": "2.000.0004"
+    },
+    "/audiozones": {
+      "description": "The Pyng Rest API allows consumers to access and control Pyng associated devices that are connected and/or online with the Pyng control system. Refer to the user's guide for more information.",
+      "version": "2.000.0004"
+    },
+    "/streaming": {
+      "description": "The Pyng Rest API allows consumers to access and control Pyng associated devices that are connected and/or online with the Pyng control system. Refer to the user's guide for more information.",
+      "version": "2.000.0004"
+    }
+  },
+  "summary": {
+    "hasRealAudioDevices": false,
+    "audioDeviceCount": 0,
+    "availableFeatures": [],
+    "recommendations": "Configure audio devices in Crestron first"
+  }
+}

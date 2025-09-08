@@ -33,7 +33,10 @@
             "Switch",
             "Dimmer",
             "Shade",
-            "Scene"
+            "Scene",
+            "Thermostat",
+            "DoorLock",
+            "SecuritySystem"
           ]
         }
       },

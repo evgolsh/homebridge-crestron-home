@@ -1,0 +1,598 @@
+{
+  "scanDate": "2025-08-31T05:17:15.493Z",
+  "crestronVersion": "2.000.0004",
+  "implemented": {
+    "/rooms": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "rooms",
+        "version"
+      ],
+      "itemCount": 21,
+      "sampleData": {
+        "id": 1,
+        "name": "Dining Room"
+      }
+    },
+    "/scenes": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "scenes",
+        "version"
+      ],
+      "itemCount": 67,
+      "sampleData": {
+        "id": 52067,
+        "name": "All On",
+        "type": "Lighting",
+        "status": false
+      }
+    },
+    "/devices": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "devices",
+        "version"
+      ],
+      "itemCount": 37,
+      "sampleData": {
+        "id": 52066,
+        "name": "Chandelier",
+        "subType": "Dimmer",
+        "connectionStatus": "online"
+      }
+    },
+    "/shades": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "shades",
+        "version"
+      ],
+      "itemCount": 9,
+      "sampleData": {
+        "id": 52111,
+        "name": "Living Room",
+        "subType": "Shade",
+        "connectionStatus": "online"
+      }
+    },
+    "/thermostats": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "thermostats",
+        "version"
+      ],
+      "itemCount": 2,
+      "sampleData": {
+        "id": 52101,
+        "name": "2nd Floor",
+        "connectionStatus": "online"
+      }
+    },
+    "/doorlocks": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "doorLocks",
+        "version"
+      ],
+      "itemCount": 2,
+      "sampleData": {
+        "id": 53496,
+        "name": "Front Door",
+        "type": "lock",
+        "status": "Locked",
+        "connectionStatus": "online"
+      }
+    },
+    "/securitydevices": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "securityDevices",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": {
+        "id": 53347,
+        "name": "Alarm",
+        "type": "security Device",
+        "connectionStatus": "online"
+      }
+    }
+  },
+  "newEndpoints": {
+    "/audio": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/audiodevices": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/mediaplayers": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/audiozones": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/streaming": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/sensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "sensors",
+        "version"
+      ],
+      "itemCount": 0,
+      "sampleData": null
+    },
+    "/environmentalsensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/motiondetectors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/contactsensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/occupancysensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/temperaturesensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/humiditysensors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/airquality": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/io": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/genericio": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/inputs": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/outputs": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/relays": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/triggers": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/cameras": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/video": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/videodevices": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/surveillance": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/pool": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/spa": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/poolequipment": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/poolcontrol": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/irrigation": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/sprinklers": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/sprinklercontrol": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/watering": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/garagedoors": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/garage": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/access": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/gates": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/fans": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/ceilingfans": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/ventilation": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/system": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/configuration": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/settings": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/users": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/notifications": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/events": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/automation": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/schedules": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/programs": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/lighting": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/security": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/climate": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/weather": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/energy": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/power": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    },
+    "/status": {
+      "status": "SUCCESS",
+      "dataKeys": [
+        "description",
+        "version"
+      ],
+      "itemCount": 1,
+      "sampleData": null
+    }
+  },
+  "errorEndpoints": {},
+  "notFoundEndpoints": [],
+  "summary": {
+    "implementedCount": 7,
+    "newEndpointsCount": 54,
+    "errorEndpointsCount": 0,
+    "notFoundCount": 0
+  }
+}

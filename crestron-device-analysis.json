@@ -1,0 +1,880 @@
+{
+  "summary": {
+    "totalDevices": 37,
+    "totalScenes": 67,
+    "totalRooms": 21,
+    "supportedTypes": [
+      "Dimmer",
+      "Shade",
+      "Switch",
+      "lock",
+      "thermostat"
+    ],
+    "unsupportedTypes": [
+      "security Device"
+    ],
+    "coveragePercent": 83
+  },
+  "devicesByType": {
+    "Dimmer": [
+      {
+        "id": 52066,
+        "name": "Chandelier",
+        "subType": "Dimmer",
+        "roomName": "Dining Room",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52042,
+        "name": "Living Ceiling",
+        "subType": "Dimmer",
+        "roomName": "Living Room",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52041,
+        "name": "Kitchen Ceiling",
+        "subType": "Dimmer",
+        "roomName": "Kitchen",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52045,
+        "name": "Kitchen Chandelier",
+        "subType": "Dimmer",
+        "roomName": "Kitchen",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52053,
+        "name": "Hallway Light",
+        "subType": "Dimmer",
+        "roomName": "Master Bed",
+        "level": 48573,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52064,
+        "name": "Ceiling Lights",
+        "subType": "Dimmer",
+        "roomName": "Master Bed",
+        "level": 23901,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52051,
+        "name": "Noble's Room",
+        "subType": "Dimmer",
+        "roomName": "Guest Room",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52052,
+        "name": "Downlights",
+        "subType": "Dimmer",
+        "roomName": "Jade Spa",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52044,
+        "name": "Entry Outside",
+        "subType": "Dimmer",
+        "roomName": "Entrance",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52047,
+        "name": "Entry Light",
+        "subType": "Dimmer",
+        "roomName": "Entrance",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52048,
+        "name": "Family Lights",
+        "subType": "Dimmer",
+        "roomName": "Family Room",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52050,
+        "name": "Patio Lights",
+        "subType": "Dimmer",
+        "roomName": "Patio",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52055,
+        "name": "Patio Sconces",
+        "subType": "Dimmer",
+        "roomName": "Patio",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52056,
+        "name": "BadAss Island Light",
+        "subType": "Dimmer",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52049,
+        "name": "Hall lights",
+        "subType": "Dimmer",
+        "roomName": "Hallway",
+        "level": 0,
+        "connectionStatus": "online"
+      }
+    ],
+    "Switch": [
+      {
+        "id": 52054,
+        "name": "Guest Bedroom",
+        "subType": "Switch",
+        "roomName": "Office",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52057,
+        "name": "Alley Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52058,
+        "name": "Front Garage Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52059,
+        "name": "Back Garage  Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52060,
+        "name": "BBQ Area Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52061,
+        "name": "Front Right Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52062,
+        "name": "Front Left Spotlight",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52063,
+        "name": "Master Spotlights",
+        "subType": "Switch",
+        "roomName": "Outside",
+        "level": 0,
+        "connectionStatus": "online"
+      }
+    ],
+    "Shade": [
+      {
+        "id": 52111,
+        "name": "Living Room",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Living Room",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52436,
+        "name": "Door",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Master Bed",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52438,
+        "name": "Window",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Master Bed",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52430,
+        "name": "Door",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Guest Room",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52434,
+        "name": "Window",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Guest Room",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52432,
+        "name": "Window",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Jade Spa",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52428,
+        "name": "Door",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Jade Spa",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52103,
+        "name": "Window",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Office",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52104,
+        "name": "Door",
+        "type": "shade",
+        "subType": "Shade",
+        "roomName": "Office",
+        "connectionStatus": "online"
+      }
+    ],
+    "thermostat": [
+      {
+        "id": 52101,
+        "name": "2nd Floor",
+        "type": "thermostat",
+        "roomName": "2nd Floor",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 52102,
+        "name": "1st Floor",
+        "type": "thermostat",
+        "roomName": "Living Room",
+        "connectionStatus": "online"
+      }
+    ],
+    "lock": [
+      {
+        "id": 53496,
+        "name": "Front Door",
+        "type": "lock",
+        "roomName": "Entrance",
+        "connectionStatus": "online"
+      },
+      {
+        "id": 53532,
+        "name": "Garage",
+        "type": "lock",
+        "roomName": "Garage",
+        "connectionStatus": "online"
+      }
+    ],
+    "security Device": [
+      {
+        "id": 53347,
+        "name": "Alarm",
+        "type": "security Device",
+        "roomName": "AV Rack",
+        "connectionStatus": "online"
+      }
+    ]
+  },
+  "scenes": [
+    {
+      "status": false,
+      "id": 52067,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 1001
+    },
+    {
+      "status": false,
+      "id": 52068,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 1001
+    },
+    {
+      "status": false,
+      "id": 52069,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 3
+    },
+    {
+      "status": true,
+      "id": 52070,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 3
+    },
+    {
+      "status": false,
+      "id": 52071,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 2
+    },
+    {
+      "status": true,
+      "id": 52072,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 2
+    },
+    {
+      "status": false,
+      "id": 52073,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 1
+    },
+    {
+      "status": true,
+      "id": 52074,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 1
+    },
+    {
+      "status": false,
+      "id": 52075,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 13
+    },
+    {
+      "status": true,
+      "id": 52076,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 13
+    },
+    {
+      "status": false,
+      "id": 52077,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 9
+    },
+    {
+      "status": true,
+      "id": 52078,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 9
+    },
+    {
+      "status": false,
+      "id": 52079,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 17
+    },
+    {
+      "status": true,
+      "id": 52080,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 17
+    },
+    {
+      "status": false,
+      "id": 52081,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 14
+    },
+    {
+      "status": true,
+      "id": 52082,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 14
+    },
+    {
+      "status": false,
+      "id": 52083,
+      "name": "Movie",
+      "type": "Lighting",
+      "roomId": 2
+    },
+    {
+      "status": false,
+      "id": 52084,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 6
+    },
+    {
+      "status": true,
+      "id": 52085,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 6
+    },
+    {
+      "status": false,
+      "id": 52086,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 7
+    },
+    {
+      "status": true,
+      "id": 52087,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 7
+    },
+    {
+      "status": false,
+      "id": 52088,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 4
+    },
+    {
+      "status": false,
+      "id": 52089,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 4
+    },
+    {
+      "status": false,
+      "id": 52090,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 8
+    },
+    {
+      "status": true,
+      "id": 52091,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 8
+    },
+    {
+      "status": false,
+      "id": 52092,
+      "name": "All On",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": true,
+      "id": 52093,
+      "name": "All Off",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": true,
+      "id": 52094,
+      "name": "Front Spotlights Off",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": false,
+      "id": 52095,
+      "name": "Front Spotlights On",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": false,
+      "id": 52096,
+      "name": "Backyard Spotlights On",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": true,
+      "id": 52097,
+      "name": "Backyard Spotlights Off",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": false,
+      "id": 52098,
+      "name": "Lounge",
+      "type": "Lighting",
+      "roomId": 3
+    },
+    {
+      "status": false,
+      "id": 52099,
+      "name": "1st Floor Dim",
+      "type": "Lighting",
+      "roomId": 1001
+    },
+    {
+      "status": false,
+      "id": 52100,
+      "name": "Patio",
+      "type": "Lighting",
+      "roomId": 14
+    },
+    {
+      "status": false,
+      "id": 52505,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 3
+    },
+    {
+      "status": false,
+      "id": 52506,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 2
+    },
+    {
+      "status": false,
+      "id": 52507,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 1
+    },
+    {
+      "status": false,
+      "id": 52508,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 13
+    },
+    {
+      "status": false,
+      "id": 52509,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 9
+    },
+    {
+      "status": false,
+      "id": 52510,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 17
+    },
+    {
+      "status": false,
+      "id": 52511,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 14
+    },
+    {
+      "status": false,
+      "id": 52512,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 6
+    },
+    {
+      "status": false,
+      "id": 52513,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 7
+    },
+    {
+      "status": false,
+      "id": 52514,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 4
+    },
+    {
+      "status": false,
+      "id": 52515,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 8
+    },
+    {
+      "status": false,
+      "id": 52516,
+      "name": "Circadian",
+      "type": "Lighting",
+      "roomId": 16
+    },
+    {
+      "status": false,
+      "id": 52112,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 1001
+    },
+    {
+      "status": false,
+      "id": 52113,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 1001
+    },
+    {
+      "status": false,
+      "id": 52114,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 8
+    },
+    {
+      "status": false,
+      "id": 52115,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 8
+    },
+    {
+      "status": false,
+      "id": 52116,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 4
+    },
+    {
+      "status": false,
+      "id": 52117,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 4
+    },
+    {
+      "status": false,
+      "id": 52118,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 7
+    },
+    {
+      "status": true,
+      "id": 52119,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 7
+    },
+    {
+      "status": false,
+      "id": 52120,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 6
+    },
+    {
+      "status": true,
+      "id": 52121,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 6
+    },
+    {
+      "status": false,
+      "id": 52122,
+      "name": "All Open",
+      "type": "Shade",
+      "roomId": 2
+    },
+    {
+      "status": false,
+      "id": 52123,
+      "name": "All Close",
+      "type": "Shade",
+      "roomId": 2
+    },
+    {
+      "status": false,
+      "id": 53575,
+      "name": "Test",
+      "type": "Media",
+      "roomId": 13
+    },
+    {
+      "status": true,
+      "id": 53500,
+      "name": "Lock Front Door",
+      "type": "Lock",
+      "roomId": 9
+    },
+    {
+      "status": false,
+      "id": 53501,
+      "name": "Unlock Front Door",
+      "type": "Unlock",
+      "roomId": 9
+    },
+    {
+      "status": true,
+      "id": 53502,
+      "name": "Lock Whole House",
+      "type": "Lock",
+      "roomId": 1001
+    },
+    {
+      "status": true,
+      "id": 53535,
+      "name": "Lock Garage",
+      "type": "Lock",
+      "roomId": 53530
+    },
+    {
+      "status": false,
+      "id": 53536,
+      "name": "Unlock Garage",
+      "type": "Unlock",
+      "roomId": 53530
+    },
+    {
+      "status": false,
+      "id": 52456,
+      "name": "Open/Close Front Gate",
+      "type": "genericIO",
+      "roomId": 11
+    },
+    {
+      "status": false,
+      "id": 52441,
+      "name": "Open BBQ TV Lift",
+      "type": "genericIO",
+      "roomId": 52439
+    },
+    {
+      "status": false,
+      "id": 52442,
+      "name": "Close BBQ TV Lift",
+      "type": "genericIO",
+      "roomId": 52439
+    }
+  ],
+  "rooms": [
+    {
+      "id": 1,
+      "name": "Dining Room"
+    },
+    {
+      "id": 2,
+      "name": "Living Room"
+    },
+    {
+      "id": 3,
+      "name": "Kitchen"
+    },
+    {
+      "id": 4,
+      "name": "Master Bed"
+    },
+    {
+      "id": 5,
+      "name": "Master Bath"
+    },
+    {
+      "id": 6,
+      "name": "Guest Room"
+    },
+    {
+      "id": 7,
+      "name": "Jade Spa"
+    },
+    {
+      "id": 8,
+      "name": "Office"
+    },
+    {
+      "id": 9,
+      "name": "Entrance"
+    },
+    {
+      "id": 1001,
+      "name": "Whole House"
+    },
+    {
+      "id": 10,
+      "name": "2nd Floor"
+    },
+    {
+      "id": 11,
+      "name": "AV Rack"
+    },
+    {
+      "id": 12,
+      "name": "Jade's Closet"
+    },
+    {
+      "id": 13,
+      "name": "Family Room"
+    },
+    {
+      "id": 14,
+      "name": "Patio"
+    },
+    {
+      "id": 15,
+      "name": "2nd Closet"
+    },
+    {
+      "id": 16,
+      "name": "Outside"
+    },
+    {
+      "id": 17,
+      "name": "Hallway"
+    },
+    {
+      "id": 52439,
+      "name": "BBQ"
+    },
+    {
+      "id": 18,
+      "name": "Rock Speakers"
+    },
+    {
+      "id": 53530,
+      "name": "Garage"
+    }
+  ]
+}
