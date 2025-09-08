@@ -1,7 +1,9 @@
 # Change Log
 
-## 1.1.10 (2024-12-19)
+## 1.1.10 (2025-01-08)
 
+* **Node.js Requirement Updated** - Minimum Node.js version is now 18.0.0 (previously 14.18.1)
+  
 ### Major New Features
 * **🌡️ Thermostat Support** - Full HVAC control with temperature adjustment, heating/cooling modes (OFF/HEAT/COOL/AUTO), and fan control
   - Automatic temperature conversion between Crestron's DeciFahrenheit and HomeKit's Celsius
