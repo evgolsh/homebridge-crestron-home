@@ -115,6 +115,9 @@ dist
 # VS Code settings and workspace files
 .vscode/
 
+# GitHub specific files
+.github/
+
 # yarn v2
 
 .yarn/cache
