@@ -14,7 +14,7 @@ export class CrestronHomeShade implements CrestronAccessory {
     PositionState: this.platform.Characteristic.PositionState.STOPPED,
   };
 
-  private activeInterval: NodeJS.Timer | undefined;
+  private activeInterval: NodeJS.Timeout | undefined;
 
   constructor(
     private readonly platform: CrestronHomePlatform,

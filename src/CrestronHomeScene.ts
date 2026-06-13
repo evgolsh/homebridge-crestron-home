@@ -83,7 +83,7 @@ export class CrestronHomeScene implements CrestronAccessory {
 
   async recallScene(value: CharacteristicValue) {
 
-    this.sceneStatus ? this.sceneStatus = false : this.sceneStatus = true;
+    this.sceneStatus = !this.sceneStatus;
     this.platform.log.debug('Recalling scene with status:', value);
     this.platform.crestronClient.recallScene(this.crestronId);
   }

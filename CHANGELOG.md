@@ -1,5 +1,39 @@
 # Change Log
 
+## 1.2.0 (2026-06-13)
+
+### Homebridge 2.0 Support
+* **Verified for Homebridge 2.0** - The plugin now compiles and passes its full test
+  suite against Homebridge 2.x (tested on 2.1.0). No deprecated or removed HAP-NodeJS
+  v1 APIs are used.
+* **Engine requirements updated** - `engines.homebridge` is now `^1.8.0 || ^2.0.0`
+  (existing Homebridge 1.x installs keep working); `engines.node` is now
+  `^20.19.0 || ^22.12.0 || ^24.0.0`. Node 18 is end-of-life and unsupported by
+  Homebridge 2's runtime.
+
+### Dependency Modernization
+* **Security** - Upgraded `axios` from 0.27 to 1.x, resolving 4 high-severity
+  advisories. `npm audit` is now clean (0 vulnerabilities).
+* **Tooling** - Upgraded to Jest 30, TypeScript 5.9, `@types/node` 25, `rimraf` 6,
+  `nodemon` 3, `jest-mock-extended` 4, and added `axios-mock-adapter` as an explicit
+  dev dependency. Removed the unused `jest-mock-axios` and the redundant
+  `@types/axios-mock-adapter` (the package now ships its own types).
+  *(TypeScript is held at the latest 5.x because ts-jest does not yet support
+  TypeScript 6.)*
+* **Linting** - Migrated to ESLint 10 with the modern flat config
+  (`eslint.config.mjs`), `typescript-eslint` 8, and `@stylistic/eslint-plugin` for
+  formatting rules.
+* **Build** - Added `skipLibCheck` to `tsconfig.json` so transitive type definitions
+  bundled by Homebridge 2 do not break compilation.
+
+### Fixes & Housekeeping
+* Replaced the deprecated `NodeJS.Timer` type with `NodeJS.Timeout` in the shade
+  accessory.
+* Rewrote a side-effecting ternary in the scene accessory as a plain assignment.
+* Added a `files` allowlist to `package.json` so the published package contains only
+  `dist/`, `config.schema.json`, `img/`, and docs — dev artifacts and tests are no
+  longer published.
+
 ## 1.1.10 (2025-01-08)
 
 * **Node.js Requirement Updated** - Minimum Node.js version is now 18.0.0 (previously 14.18.1)
