@@ -55,6 +55,33 @@ describe('CrestronClient', () => {
     expect(devices).toEqual(expectedDevices);
   });
 
+  it('should treat Drape subType as Shade (issue #20)', async () => {
+    mockAxios.onGet('/login').reply(200, { authkey: 'auth-key', version: '1.0.0' });
+    mockAxios.onGet('/rooms').reply(200, { rooms: [{ id: 1, name: 'Living Room' }] });
+    mockAxios.onGet('/scenes').reply(200, { scenes: [] });
+    mockAxios.onGet('/devices').reply(200, {
+      devices: [{ id: 301, name: 'Curtain', type: 'Shade', subType: 'Drape', roomId: 1, status: true }],
+    });
+    mockAxios.onGet('/shades').reply(200, { shades: [{ id: 301, position: 32768, subType: 'Drape' }] });
+    mockAxios.onGet('/thermostats').reply(200, { thermostats: [] });
+
+    const devices = await client.getDevices(['Shade']);
+
+    expect(devices).toHaveLength(1);
+    expect(devices[0]).toMatchObject({
+      id: 301, type: 'Shade', subType: 'Shade', name: 'Living Room Curtain', position: 32768,
+    });
+  });
+
+  it('should return [] and not throw when login fails (issue #21)', async () => {
+    mockAxios.onGet('/login').reply(500);
+
+    const devices = await client.getDevices(['Shade']);
+
+    expect(devices).toEqual([]);
+    expect(log.error).toHaveBeenCalled();
+  });
+
   it('should get thermostat devices', async () => {
     // Mock the login response
     mockAxios.onGet('/login').reply(200, { authkey: 'auth-key', version: '1.0.0' });

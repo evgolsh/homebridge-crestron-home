@@ -1,5 +1,16 @@
 # Change Log
 
+## 1.2.2 (2026-06-13)
+
+* Thermostats: honor the `temperatureUnits` reported by Crestron (`DeciCelsius`,
+  `CelsiusWholeDegrees`, `FahrenheitWholeDegrees`, `DeciFahrenheit`) instead of always
+  assuming Fahrenheit. Fixes wrong readings on Celsius systems (e.g. 25°C showing as
+  −3.5°C). (#22)
+* Shades: drapery motors (subType `Drape`) are now recognized and controlled as shades. (#20)
+* Robustness: when the controller is unreachable or rejects login (500/503), log a clear
+  message and skip the update gracefully instead of throwing `Cannot read properties of
+  undefined`. Recovers automatically on the next poll. (#21)
+
 ## 1.2.1 (2026-06-13)
 
 * Fix `config.schema.json`: `required` is now an array at the object level instead

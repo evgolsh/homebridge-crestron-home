@@ -136,6 +136,13 @@ export class CrestronClient {
     try {
       await this.login();
 
+      // If login failed (e.g. controller returned 500/503), the authenticated client
+      // was never created. Fail clearly and recover on the next update (issue #21).
+      if (!this.axiosClient) {
+        this.log.error('Crestron controller is not reachable or rejected login - skipping this update, will retry.');
+        return [];
+      }
+
       const crestronData = await Promise.all([
         this.axiosClient.get('/rooms'),
         this.axiosClient.get('/scenes'),
@@ -161,7 +168,9 @@ export class CrestronClient {
       for (const device of crestronData[2].data.devices) {
 
         const roomName = this.rooms.find(r => r.id === device.roomId)?.name;
-        const deviceType = device.subType || device.type;
+        // Drapery motors report subType 'Drape' but behave identically to shades (issue #20)
+        const rawDeviceType = device.subType || device.type;
+        const deviceType = rawDeviceType === 'Drape' ? 'Shade' : rawDeviceType;
         let shadePosition = 0;
         let thermostatData: ThermostatData | null = null;
         let doorLockData: DoorLockData | null = null;

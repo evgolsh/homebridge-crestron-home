@@ -423,19 +423,19 @@ describe('CrestronHomeThermostat', () => {
     it('should handle missing current temperature', () => {
       delete mockAccessory.context.device.currentTemperature;
       const newThermostat = new CrestronHomeThermostat(mockPlatform, mockAccessory);
-      expect(newThermostat.getCurrentTemperature()).toBeCloseTo(22.2, 1); // Default 720 DeciFahrenheit
+      expect(newThermostat.getCurrentTemperature()).toBeCloseTo(20, 1); // Falls back to default, not a fabricated reading
     });
 
     it('should handle missing setpoints', () => {
       delete mockAccessory.context.device.currentSetPoint;
       const newThermostat = new CrestronHomeThermostat(mockPlatform, mockAccessory);
-      expect(newThermostat.getTargetTemperature()).toBeCloseTo(22.2, 1); // Default 720 DeciFahrenheit
+      expect(newThermostat.getTargetTemperature()).toBeCloseTo(20, 1); // Falls back to default, not a fabricated reading
     });
 
     it('should handle empty setpoints array', () => {
       mockAccessory.context.device.currentSetPoint = [];
       const newThermostat = new CrestronHomeThermostat(mockPlatform, mockAccessory);
-      expect(newThermostat.getTargetTemperature()).toBeCloseTo(22.2, 1); // Default 720 DeciFahrenheit
+      expect(newThermostat.getTargetTemperature()).toBeCloseTo(20, 1); // Falls back to default, not a fabricated reading
     });
 
     it('should handle missing current mode', () => {
@@ -451,6 +451,48 @@ describe('CrestronHomeThermostat', () => {
       ];
       const newThermostat = new CrestronHomeThermostat(mockPlatform, mockAccessory);
       expect(newThermostat.getTargetTemperature()).toBeCloseTo(20.0, 1); // 680 DeciFahrenheit = 68°F = 20°C
+    });
+  });
+
+  describe('temperature units (issue #22)', () => {
+    it('should convert DeciCelsius current temperature without F->C math', () => {
+      // Reported bug: 25.3°C system showed as -3.5°C because DeciCelsius was treated as DeciFahrenheit
+      mockAccessory.context.device.temperatureUnits = 'DeciCelsius';
+      mockAccessory.context.device.currentTemperature = 242; // 24.2°C
+      const t = new CrestronHomeThermostat(mockPlatform, mockAccessory);
+      expect(t.getCurrentTemperature()).toBeCloseTo(24.2, 1);
+    });
+
+    it('should convert DeciCelsius setpoint to Celsius', () => {
+      mockAccessory.context.device.temperatureUnits = 'DeciCelsius';
+      mockAccessory.context.device.currentSetPoint = [{ type: 'heat', temperature: 170 }]; // 17.0°C
+      mockAccessory.context.device.currentMode = 'Heat';
+      const t = new CrestronHomeThermostat(mockPlatform, mockAccessory);
+      expect(t.getTargetTemperature()).toBeCloseTo(17.0, 1);
+    });
+
+    it('should write the setpoint back in DeciCelsius', async () => {
+      mockAccessory.context.device.temperatureUnits = 'DeciCelsius';
+      mockAccessory.context.device.currentMode = 'Heat';
+      const t = new CrestronHomeThermostat(mockPlatform, mockAccessory);
+      await t.setTargetTemperature(20);
+      expect(mockPlatform.crestronClient.setThermostatSetPoint).toHaveBeenCalledWith(
+        expect.objectContaining({ id: 101, setpoints: [{ type: 'Heat', temperature: 200 }] }),
+      );
+    });
+
+    it('should still treat the default (DeciFahrenheit) correctly', () => {
+      mockAccessory.context.device.currentTemperature = 720; // 72.0°F
+      const t = new CrestronHomeThermostat(mockPlatform, mockAccessory);
+      expect(t.getCurrentTemperature()).toBeCloseTo(22.2, 1);
+    });
+
+    it('should write the setpoint back in DeciFahrenheit by default', async () => {
+      const t = new CrestronHomeThermostat(mockPlatform, mockAccessory); // no temperatureUnits -> DeciFahrenheit, mode Cool
+      await t.setTargetTemperature(20); // 20°C = 68°F = 680 DeciFahrenheit
+      expect(mockPlatform.crestronClient.setThermostatSetPoint).toHaveBeenCalledWith(
+        expect.objectContaining({ setpoints: [{ type: 'Cool', temperature: 680 }] }),
+      );
     });
   });
 });
