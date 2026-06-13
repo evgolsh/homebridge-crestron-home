@@ -126,3 +126,6 @@ dist
 .pnp.*
 
 package-lock.json
+
+# Local-only dev guide
+CLAUDE.md
