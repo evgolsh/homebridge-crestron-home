@@ -4,23 +4,25 @@
   "singular": true,
   "schema": {
     "type": "object",
+    "required": [
+      "name",
+      "crestronHost",
+      "token"
+    ],
     "properties": {
       "name": {
         "title": "Name",
         "type": "string",
-        "required": true,
         "default": "Crestron Home Platform"
       },
       "crestronHost": {
         "title": "Crestron Processor IP Address",
         "type": "string",
-        "required": true,
         "format": "hostname"
       },
       "token": {
         "title": "API Auth Token",
-        "type": "string",
-        "required": true
+        "type": "string"
       },
       "enabledTypes": {
         "title": "Enabled devices",
@@ -45,8 +47,7 @@
         "default": 30,
         "type": "integer",
         "minimum": 10,
-        "maximum": 540,
-        "required": false
+        "maximum": 540
       }
     }
   }

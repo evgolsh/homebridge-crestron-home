@@ -1,5 +1,13 @@
 # Change Log
 
+## 1.2.1 (2026-06-13)
+
+* Fix `config.schema.json`: `required` is now an array at the object level instead
+  of `required: true/false` on individual fields (valid JSON Schema).
+* Add `homepage` to `package.json` and expand `keywords`.
+
+(Changes for the Homebridge plugin verification checks.)
+
 ## 1.2.0 (2026-06-13)
 
 ### Homebridge 2.0 Support
