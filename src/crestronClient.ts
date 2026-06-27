@@ -156,13 +156,13 @@ export class CrestronClient {
       this.rooms = crestronData[0].data.rooms;
 
       // Debug logging for device discovery
-      this.log.info('🔍 DEVICE DISCOVERY SUMMARY:');
-      this.log.info('- Total devices:', crestronData[2].data.devices?.length || 0);
-      this.log.info('- Total thermostats from API:', crestronData[4].data.thermostats?.length || 0);
-      this.log.info('- Total scenes:', crestronData[1].data.scenes?.length || 0);
-      this.log.info('- Total shades:', crestronData[3].data.shades?.length || 0);
-      this.log.info('- Total security devices from API:', crestronData[6].data.securityDevices?.length || 0);
-      this.log.info('- Enabled types in config:', enabledTypes.join(', '));
+      this.log.debug('🔍 DEVICE DISCOVERY SUMMARY:');
+      this.log.debug('- Total devices:', crestronData[2].data.devices?.length || 0);
+      this.log.debug('- Total thermostats from API:', crestronData[4].data.thermostats?.length || 0);
+      this.log.debug('- Total scenes:', crestronData[1].data.scenes?.length || 0);
+      this.log.debug('- Total shades:', crestronData[3].data.shades?.length || 0);
+      this.log.debug('- Total security devices from API:', crestronData[6].data.securityDevices?.length || 0);
+      this.log.debug('- Enabled types in config:', enabledTypes.join(', '));
 
 
       for (const device of crestronData[2].data.devices) {
@@ -178,10 +178,10 @@ export class CrestronClient {
 
         // Debug logging for each device
         if (deviceType === 'Thermostat' || deviceType === 'thermostat') {
-          this.log.info(`🌡️ Found thermostat device: ID=${device.id}, name="${device.name}", room="${roomName}", type="${deviceType}"`);
+          this.log.debug(`🌡️ Found thermostat device: ID=${device.id}, name="${device.name}", room="${roomName}", type="${deviceType}"`);
         }
         if (deviceType === 'security Device') {
-          this.log.info(`🔒 Found security device: ID=${device.id}, name="${device.name}", room="${roomName}", type="${deviceType}"`);
+          this.log.debug(`🔒 Found security device: ID=${device.id}, name="${device.name}", room="${roomName}", type="${deviceType}"`);
         }
 
         if (deviceType === 'Shade') {
@@ -202,9 +202,9 @@ export class CrestronClient {
 
         if (deviceType === 'security Device') {
           securityDeviceData = crestronData[6].data.securityDevices?.find(sd => sd.id === device.id);
-          this.log.info(`🔒 Security device matching: deviceID=${device.id}, foundSecurityData=${!!securityDeviceData}`);
+          this.log.debug(`🔒 Security device matching: deviceID=${device.id}, foundSecurityData=${!!securityDeviceData}`);
           if (securityDeviceData) {
-            this.log.info('🔒 Security device data:', JSON.stringify(securityDeviceData, null, 2));
+            this.log.debug('🔒 Security device data:', JSON.stringify(securityDeviceData, null, 2));
           }
         }
 
@@ -243,15 +243,15 @@ export class CrestronClient {
         if (isEnabled) {
           devices.push(d);
           if (deviceType === 'Thermostat' || deviceType === 'thermostat') {
-            this.log.info(`✅ Added thermostat to devices list: ${d.name}`);
+            this.log.debug(`✅ Added thermostat to devices list: ${d.name}`);
           }
           if (deviceType === 'security Device') {
-            this.log.info(`✅ Added security device to devices list: ${d.name}`);
+            this.log.debug(`✅ Added security device to devices list: ${d.name}`);
           }
         } else if (deviceType === 'Thermostat' || deviceType === 'thermostat') {
-          this.log.info(`⚠️ Thermostat found but not enabled in config: ${d.name}`);
+          this.log.debug(`⚠️ Thermostat found but not enabled in config: ${d.name}`);
         } else if (deviceType === 'security Device') {
-          this.log.info(`⚠️ Security device found but not enabled in config: ${d.name}`);
+          this.log.debug(`⚠️ Security device found but not enabled in config: ${d.name}`);
         }
 
       }
