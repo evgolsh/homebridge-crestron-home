@@ -1,6 +1,7 @@
 
 # Homebridge Crestron Home Plugin
 
+[![verified-by-homebridge](https://img.shields.io/badge/homebridge-verified-blueviolet?color=%23491F59&style=flat&logoColor=%23FFFFFF&logo=homebridge)](https://github.com/homebridge/homebridge/wiki/Verified-Plugins)
 [![npm version](https://img.shields.io/npm/v/homebridge-crestron-home.svg)](https://www.npmjs.com/package/homebridge-crestron-home)
 [![npm downloads](https://img.shields.io/npm/dt/homebridge-crestron-home.svg)](https://www.npmjs.com/package/homebridge-crestron-home)
 [![Homebridge](https://img.shields.io/badge/homebridge-1.8%20%7C%202.0-blue.svg)](https://homebridge.io)
