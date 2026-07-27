@@ -7,7 +7,7 @@
 [![Homebridge](https://img.shields.io/badge/homebridge-1.8%20%7C%202.0-blue.svg)](https://homebridge.io)
 [![License](https://img.shields.io/npm/l/homebridge-crestron-home.svg)](https://github.com/evgolsh/homebridge-crestron-home/blob/master/LICENSE)
 
-This plugin connects to Crestron Home CWS server using REST API and doesn't require anything to be deployed into the Crestron controller. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that runs CWS server.
+This plugin connects to [Crestron Home CWS server using REST API](https://sdkcon78221.crestron.com/sdk/Crestron-Home-API/Content/Topics/Home.htm) and doesn't require anything to be deployed into the Crestron controller. It was developed and tested with Crestron MC4-R powered by Crestron Home OS, but theoretically it should work with any Crestron controller that runs CWS server.
 
 ## Supported accessories
 The following devices are currently supported:
